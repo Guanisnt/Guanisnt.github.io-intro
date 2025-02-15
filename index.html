@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -115,25 +115,48 @@
             animation: fadeIn 1.5s ease-in;
         }
 
+        /* 上傳圖片樣式 */
+        .upload-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #preview {
+            max-width: 100%;
+            max-height: 300px;
+            margin-top: 10px;
+        }
+
+        #result {
+            font-size: 1.5rem;
+            margin-top: 10px;
+            color: #d9534f;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
         /* 動畫效果 */
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         @keyframes slideUp {
-            from {
-                transform: translateY(50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
     </style>
 </head>
@@ -146,6 +169,7 @@
                 <li><a href="#education">學經歷</a></li>
                 <li><a href="#skills">技能</a></li>
                 <li><a href="#contact">聯絡方式</a></li>
+                <li><a href="#test-model">測試模型</a></li>
             </ul>
         </nav>
     </header>
@@ -174,11 +198,54 @@
 
     <section id="contact">
         <h2>聯絡方式</h2>
-        <p>歡迎與我聯絡：<a href="https://mail.google.com/mail/u/0/?fs=1&amp;tf=cm&amp;to=allen6010101@gmail.com" target="_blank" rel="noopener noreferrer">gmail</a>        </p>
+        <p>歡迎與我聯絡：<a href="https://mail.google.com/mail/u/0/?fs=1&amp;tf=cm&amp;to=allen6010101@gmail.com" target="_blank" rel="noopener noreferrer">gmail</a></p>
+    </section>
+
+    <section id="test-model">
+        <h2>測試模型</h2>
+        <div class="upload-container">
+            <input type="file" id="upload" accept="image/*" onchange="previewImage()">
+            <br>
+            <img id="preview" src="" alt="圖片預覽">
+            <br>
+            <button onclick="uploadImage()">上傳並預測</button>
+            <p id="result">預測結果將顯示在這裡</p>
+        </div>
     </section>
 
     <footer>
         <p>&copy; 2024 陳冠霖的個人網站</p>
     </footer>
+
+    <script>
+        function previewImage() {
+            let file = document.getElementById("upload").files[0];
+            let reader = new FileReader();
+
+            reader.onload = function(e) {
+                document.getElementById("preview").src = e.target.result;
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function uploadImage() {
+            let file = document.getElementById("upload").files[0];
+            let formData = new FormData();
+            formData.append("file", file);
+
+            fetch("http://127.0.0.1:5000/predict", {  // 這裡連接 Flask 伺服器
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").innerText = "預測結果: " + data.result;
+            })
+            .catch(error => console.error("錯誤:", error));
+        }
+    </script>
 </body>
 </html>
