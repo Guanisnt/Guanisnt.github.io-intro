@@ -232,20 +232,41 @@
         }
 
         function uploadImage() {
-            let file = document.getElementById("upload").files[0];
+            let fileInput = document.getElementById("upload");
+            let file = fileInput.files[0];
+
+            if (!file) {
+                document.getElementById("result").innerText = "請選擇圖片再上傳！";
+                return;
+            }
+
             let formData = new FormData();
             formData.append("file", file);
 
-            fetch("http://127.0.0.1:5000/predict", {  // 這裡連接 Flask 伺服器
+            fetch("http://127.0.0.1:5000/predict", {
                 method: "POST",
                 body: formData
             })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("result").innerText = "預測結果: " + data.result;
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP 錯誤！狀態碼: ${response.status}`);
+                }
+                return response.json();  // 確保 response 解析成 JSON
             })
-            .catch(error => console.error("錯誤:", error));
+            .then(data => {
+                console.log("前端收到預測結果：", data); // 確保前端真的收到
+                if (data.result) {
+                    document.getElementById("result").innerText = "預測結果: " + data.result;
+                } else {
+                    document.getElementById("result").innerText = "預測失敗，請檢查伺服器！";
+                }
+            })
+            .catch(error => {
+                console.error("錯誤:", error);
+                document.getElementById("result").innerText = "發生錯誤，請檢查伺服器！";
+            });
         }
+
     </script>
 </body>
 </html>
