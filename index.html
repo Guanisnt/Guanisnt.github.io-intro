@@ -256,31 +256,6 @@
         .skill-legend span { font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.4rem; }
         .dot { width: 10px; height: 10px; border-radius: 2px; }
 
-        /* ── MODEL DEMO ── */
-        .demo-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 2rem;
-            max-width: 540px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        .demo-card h3 { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; }
-        .demo-card p { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1.5rem; }
-        .upload-zone {
-            border: 2px dashed var(--border);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            cursor: pointer;
-            transition: border-color 0.2s, background 0.2s;
-        }
-        .upload-zone:hover { border-color: var(--accent); background: #eff6ff; }
-        #preview { max-width: 100%; max-height: 220px; border-radius: 6px; margin: 0.75rem auto 0; display: none; }
-        #result { font-size: 0.95rem; margin-top: 1rem; color: var(--primary); font-weight: 600; min-height: 1.5rem; }
-        .btn-accent { background: var(--accent); color: #fff; }
-        .btn-accent:hover { background: #1a6fa0; transform: translateY(-1px); }
 
         /* ── CONTACT ── */
         .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
@@ -333,7 +308,6 @@
         <li><a href="#projects">Projects</a></li>
         <li><a href="#publications">Publications</a></li>
         <li><a href="#skills">Skills</a></li>
-        <li><a href="#demo">Demo</a></li>
         <li><a href="#contact">Contact</a></li>
     </ul>
 </nav>
@@ -360,8 +334,9 @@
             <span class="tag">GPA 3.97 / 4.0</span>
         </div>
         <div class="hero-cta">
-            <a href="mailto:allen6010101@gmail.com" class="btn btn-white">✉ Contact Me</a>
+            <a href="mailto:chen.guanlin.dev@gmail.com" class="btn btn-white">✉ Contact Me</a>
             <a href="https://github.com/Guanisnt" target="_blank" rel="noopener" class="btn btn-outline">GitHub</a>
+            <a href="https://www.linkedin.com/in/冠霖-陳-80242334b/" target="_blank" rel="noopener" class="btn btn-outline">LinkedIn</a>
             <!-- 若有履歷 PDF 可放置 -->
             <a href="resume.pdf" target="_blank" class="btn btn-outline" style="display:none;">Download CV</a>
         </div>
@@ -394,13 +369,14 @@
                 </p>
             </div>
             <ul class="info-list">
-                <li><span class="label">📧 Email</span><a href="mailto:allen6010101@gmail.com">allen6010101@gmail.com</a></li>
+                <li><span class="label">📧 Email</span><a href="mailto:chen.guanlin.dev@gmail.com">chen.guanlin.dev@gmail.com</a></li>
                 <li><span class="label">📱 Phone</span><span>(+886) 903-622211</span></li>
                 <li><span class="label">🎓 B.S.</span><span>國立高雄大學 資工系 (2022–2026)</span></li>
                 <li><span class="label">🎓 M.S.</span><span>國立中央大學 資工所 (2026–2028, Incoming)</span></li>
                 <li><span class="label">🏅 GPA</span><span>3.97 / 4.0 &nbsp;|&nbsp; 系排 6 / 43</span></li>
                 <li><span class="label">💬 English</span><span>Business Professional — TOEIC 760</span></li>
                 <li><span class="label">💻 GitHub</span><a href="https://github.com/Guanisnt" target="_blank" rel="noopener">github.com/Guanisnt</a></li>
+                <li><span class="label">🔗 LinkedIn</span><a href="https://www.linkedin.com/in/冠霖-陳-80242334b/" target="_blank" rel="noopener">linkedin.com/in/冠霖-陳-80242334b</a></li>
             </ul>
         </div>
     </div>
@@ -695,29 +671,6 @@
     </div>
 </section>
 
-<!-- ── DEMO ── -->
-<section id="demo">
-    <div class="container">
-        <div class="section-header" style="text-align:center">
-            <div class="section-label">Live Demo</div>
-            <h2 class="section-title">Deepfake Detection Demo</h2>
-            <p style="color:var(--text-muted);font-size:0.9rem;margin-top:0.5rem">
-                上傳人臉圖片，即時偵測是否為 Deepfake（需後端服務運行）
-            </p>
-        </div>
-        <div class="demo-card">
-            <h3>🛡 PocketDefender — 圖片偵測</h3>
-            <p>選擇一張人臉圖片，送至本地模型推論端點進行 Deepfake 偵測。</p>
-            <div class="upload-zone" onclick="document.getElementById('upload').click()">
-                <div>📁 點擊或拖曳圖片至此</div>
-                <input type="file" id="upload" accept="image/*" style="display:none" onchange="previewImage()">
-                <img id="preview" src="" alt="預覽圖片">
-            </div>
-            <button class="btn btn-accent" onclick="uploadImage()">上傳並偵測</button>
-            <p id="result"></p>
-        </div>
-    </div>
-</section>
 
 <!-- ── CONTACT ── -->
 <section id="contact" style="background:#fff">
@@ -727,11 +680,11 @@
             <h2 class="section-title">Contact</h2>
         </div>
         <div class="contact-grid">
-            <a href="mailto:allen6010101@gmail.com" class="contact-item">
+            <a href="mailto:chen.guanlin.dev@gmail.com" class="contact-item">
                 <span class="contact-icon">✉️</span>
                 <div>
                     <h3>Email</h3>
-                    <p>allen6010101@gmail.com</p>
+                    <p>chen.guanlin.dev@gmail.com</p>
                 </div>
             </a>
             <a href="https://github.com/Guanisnt" target="_blank" rel="noopener" class="contact-item">
@@ -739,6 +692,13 @@
                 <div>
                     <h3>GitHub</h3>
                     <p>github.com/Guanisnt</p>
+                </div>
+            </a>
+            <a href="https://www.linkedin.com/in/冠霖-陳-80242334b/" target="_blank" rel="noopener" class="contact-item">
+                <span class="contact-icon">🔗</span>
+                <div>
+                    <h3>LinkedIn</h3>
+                    <p>linkedin.com/in/冠霖-陳-80242334b</p>
                 </div>
             </a>
             <div class="contact-item" style="cursor:default">
@@ -762,50 +722,11 @@
 <!-- ── FOOTER ── -->
 <footer>
     <p>© 2026 陳冠霖 Chen Guan-Lin &nbsp;·&nbsp;
-       <a href="mailto:allen6010101@gmail.com">allen6010101@gmail.com</a>
+       <a href="mailto:chen.guanlin.dev@gmail.com">chen.guanlin.dev@gmail.com</a>
     </p>
 </footer>
 
 <script>
-    function previewImage() {
-        const file = document.getElementById('upload').files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = e => {
-            const img = document.getElementById('preview');
-            img.src = e.target.result;
-            img.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-    }
-
-    function uploadImage() {
-        const fileInput = document.getElementById('upload');
-        const resultEl = document.getElementById('result');
-        if (!fileInput.files[0]) {
-            resultEl.textContent = '請先選擇一張圖片。';
-            return;
-        }
-        const formData = new FormData();
-        formData.append('file', fileInput.files[0]);
-        resultEl.textContent = '偵測中…';
-
-        fetch('http://127.0.0.1:5000/predict', { method: 'POST', body: formData })
-            .then(r => {
-                if (!r.ok) throw new Error(`HTTP ${r.status}`);
-                return r.json();
-            })
-            .then(data => {
-                resultEl.textContent = data.result
-                    ? '預測結果：' + data.result
-                    : '偵測失敗，請確認伺服器是否啟動。';
-            })
-            .catch(err => {
-                console.error(err);
-                resultEl.textContent = '無法連線至本地伺服器（127.0.0.1:5000）。';
-            });
-    }
-
     // Intersection Observer: fade-in on scroll
     const observer = new IntersectionObserver(entries => {
         entries.forEach(e => {
