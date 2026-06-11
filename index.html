@@ -3,270 +3,826 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>陳冠霖的個人網站 - 資工系學生</title>
+    <title>Chen Guan-Lin | 陳冠霖 — AI Researcher & Backend Engineer</title>
+    <meta name="description" content="陳冠霖 Chen Guan-Lin — AI Research, Edge AI Optimization, Spring Boot Backend Engineering. Incoming M.S. student at National Central University.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --primary:    #1e3a5f;
+            --accent:     #2e86c1;
+            --accent-light: #5dade2;
+            --success:    #1a8754;
+            --bg:         #f8fafc;
+            --surface:    #ffffff;
+            --border:     #e2e8f0;
+            --text:       #1a202c;
+            --text-muted: #64748b;
+            --shadow:     0 4px 24px rgba(30,58,95,0.08);
+            --radius:     12px;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            background-color: #f4f4f9;
-            color: #333;
-            transition: background-color 0.5s;
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
         }
 
-        header {
-            background-color: #4a90e2;
-            color: #fff;
-            padding: 1.5rem;
-            text-align: center;
-            position: relative;
-            animation: fadeIn 1.5s ease-in;
+        /* ── NAV ── */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
         }
-
-        header h1 {
-            margin-bottom: 0.5rem;
-            font-size: 2.5rem;
-        }
-
-        nav ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        nav ul li {
-            display: inline;
-            margin: 0 1rem;
-            transition: transform 0.3s;
-        }
-
-        nav ul li a {
-            color: #b21111;
+        .nav-brand { font-weight: 700; color: var(--primary); font-size: 1rem; letter-spacing: 0.01em; }
+        .nav-links { display: flex; gap: 0.25rem; list-style: none; }
+        .nav-links a {
+            padding: 0.4rem 0.85rem;
+            border-radius: 6px;
+            color: var(--text-muted);
             text-decoration: none;
-            font-size: 1.2rem;
-            position: relative;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.2s, background 0.2s;
         }
+        .nav-links a:hover { color: var(--accent); background: #eff6ff; }
 
-        nav ul li:hover {
-            transform: scale(1.1);
-        }
-
-        section {
-            padding: 2rem;
-            margin: 2rem auto;
-            width: 80%;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            animation: slideUp 1s forwards;
-        }
-
-        section h2 {
-            color: #333;
-            margin-bottom: 1rem;
-            font-size: 2rem;
-            border-bottom: 2px solid #4a90e2;
-            padding-bottom: 0.5rem;
-        }
-
-        section p, section ul {
-            animation: fadeIn 2s ease-in;
-        }
-
-        ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        ul li {
-            background-color: #e8f0f2;
-            margin: 0.5rem 0;
-            padding: 0.75rem;
-            border-radius: 5px;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-
-        ul li:hover {
-            background-color: #d1e8eb;
-            transform: translateX(10px);
-        }
-
-        a {
-            color: #007BFF;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        footer {
-            text-align: center;
-            padding: 1.5rem;
-            background-color: #4a90e2;
+        /* ── HERO ── */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #2c5282 55%, var(--accent) 100%);
             color: #fff;
-            margin-top: 2rem;
-            position: relative;
-            animation: fadeIn 1.5s ease-in;
-        }
-
-        /* 上傳圖片樣式 */
-        .upload-container {
+            padding: 5rem 2rem 4rem;
             text-align: center;
-            margin-top: 20px;
         }
-
-        #preview {
-            max-width: 100%;
-            max-height: 300px;
-            margin-top: 10px;
+        .hero-inner { max-width: 760px; margin: 0 auto; }
+        .avatar-wrap {
+            width: 140px; height: 140px;
+            border-radius: 50%;
+            border: 4px solid rgba(255,255,255,0.6);
+            margin: 0 auto 1.5rem;
+            overflow: hidden;
+            background: rgba(255,255,255,0.15);
+            display: flex; align-items: center; justify-content: center;
         }
-
-        #result {
-            font-size: 1.5rem;
-            margin-top: 10px;
-            color: #d9534f;
+        .avatar-wrap img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar-placeholder { font-size: 3rem; opacity: 0.6; }
+        .hero h1 { font-size: 2.4rem; font-weight: 700; margin-bottom: 0.4rem; }
+        .hero h1 span { font-size: 1.3rem; font-weight: 300; opacity: 0.85; margin-left: 0.5rem; }
+        .hero-subtitle { font-size: 1.05rem; opacity: 0.9; margin-bottom: 1.5rem; font-weight: 300; }
+        .hero-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 2rem; }
+        .tag {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 0.3rem 0.85rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
         }
-
-        button {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            font-size: 1rem;
+        .hero-cta { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            padding: 0.65rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
             cursor: pointer;
-            border-radius: 5px;
-            transition: background 0.3s;
+            border: none;
         }
+        .btn-white { background: #fff; color: var(--primary); }
+        .btn-white:hover { background: #e8f4ff; transform: translateY(-1px); }
+        .btn-outline { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.6); }
+        .btn-outline:hover { background: rgba(255,255,255,0.1); transform: translateY(-1px); }
 
-        button:hover {
-            background-color: #218838;
+        /* ── LAYOUT ── */
+        .container { max-width: 960px; margin: 0 auto; padding: 0 2rem; }
+        section { padding: 4rem 0; }
+        section:nth-child(even) { background: #fff; }
+
+        .section-header { margin-bottom: 2.5rem; }
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-bottom: 0.4rem;
         }
+        .section-title { font-size: 1.75rem; font-weight: 700; color: var(--primary); }
 
-        /* 動畫效果 */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        /* ── ABOUT ── */
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .about-text p { color: var(--text-muted); margin-bottom: 1rem; font-size: 0.975rem; }
+        .info-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+        .info-list li { display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.9rem; }
+        .info-list .label { font-weight: 600; color: var(--primary); min-width: 56px; }
+        .info-list a { color: var(--accent); text-decoration: none; }
+        .info-list a:hover { text-decoration: underline; }
+
+        /* ── EDUCATION ── */
+        .timeline { display: flex; flex-direction: column; gap: 1.5rem; }
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 1.5rem;
+            align-items: start;
         }
+        .timeline-date { font-size: 0.82rem; color: var(--text-muted); font-weight: 500; padding-top: 0.2rem; text-align: right; }
+        .timeline-body {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent);
+            border-radius: var(--radius);
+            padding: 1.2rem 1.5rem;
+        }
+        .timeline-body h3 { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 0.15rem; }
+        .timeline-body .degree { font-size: 0.875rem; font-weight: 500; color: var(--accent); margin-bottom: 0.4rem; }
+        .timeline-body p { font-size: 0.875rem; color: var(--text-muted); }
 
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        /* ── AWARDS ── */
+        .awards-grid { display: flex; flex-direction: column; gap: 1rem; }
+        .award-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.2rem 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 0.5rem 1rem;
+            align-items: start;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .award-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+        .award-badge {
+            display: inline-block;
+            background: #fef3c7;
+            color: #92400e;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            margin-bottom: 0.4rem;
+        }
+        .award-badge.blue { background: #dbeafe; color: #1e40af; }
+        .award-badge.green { background: #d1fae5; color: #065f46; }
+        .award-card h3 { font-size: 0.95rem; font-weight: 600; color: var(--primary); }
+        .award-card p { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem; grid-column: 1 / -1; }
+        .award-date { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; padding-top: 0.25rem; }
+
+        /* ── PROJECTS ── */
+        .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .project-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .project-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
+        .project-img {
+            width: 100%; height: 180px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #dbeafe, #ede9fe);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; color: var(--text-muted); font-style: italic;
+        }
+        .project-img img { width: 100%; height: 100%; object-fit: cover; }
+        .project-body { padding: 1.25rem; }
+        .project-body h3 { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; }
+        .project-body p { font-size: 0.865rem; color: var(--text-muted); margin-bottom: 1rem; }
+        .project-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+        .tech-tag {
+            background: #eff6ff;
+            color: var(--accent);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.2rem 0.55rem;
+            border-radius: 4px;
+        }
+        .project-card.featured { grid-column: 1 / -1; display: grid; grid-template-columns: 340px 1fr; }
+        .project-card.featured .project-img { height: 100%; min-height: 200px; }
+        .project-card.featured .project-body { padding: 1.75rem; }
+        .project-card.featured h3 { font-size: 1.15rem; }
+        .project-body ul { padding-left: 1.1rem; font-size: 0.865rem; color: var(--text-muted); margin-bottom: 1rem; }
+        .project-body ul li { margin-bottom: 0.3rem; }
+
+        /* ── PUBLICATIONS ── */
+        .pub-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--success);
+            border-radius: var(--radius);
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .pub-card h3 { font-size: 0.95rem; font-weight: 600; color: var(--primary); margin-bottom: 0.3rem; }
+        .pub-card .venue { font-size: 0.85rem; color: var(--success); font-weight: 500; margin-bottom: 0.3rem; }
+        .pub-card p { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* ── SKILLS ── */
+        .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .skill-group h3 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+        .skill-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+        .skill-chip {
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 500;
+        }
+        .skill-chip.pro { background: var(--primary); color: #fff; }
+        .skill-chip.mid { background: #dbeafe; color: #1e40af; }
+        .skill-chip.beg { background: #f1f5f9; color: var(--text-muted); }
+        .skill-legend { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
+        .skill-legend span { font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.4rem; }
+        .dot { width: 10px; height: 10px; border-radius: 2px; }
+
+        /* ── MODEL DEMO ── */
+        .demo-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            max-width: 540px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .demo-card h3 { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; }
+        .demo-card p { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .upload-zone {
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .upload-zone:hover { border-color: var(--accent); background: #eff6ff; }
+        #preview { max-width: 100%; max-height: 220px; border-radius: 6px; margin: 0.75rem auto 0; display: none; }
+        #result { font-size: 0.95rem; margin-top: 1rem; color: var(--primary); font-weight: 600; min-height: 1.5rem; }
+        .btn-accent { background: var(--accent); color: #fff; }
+        .btn-accent:hover { background: #1a6fa0; transform: translateY(-1px); }
+
+        /* ── CONTACT ── */
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .contact-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            display: flex; align-items: center; gap: 1rem;
+            text-decoration: none;
+            color: var(--text);
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .contact-item:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+        .contact-icon { font-size: 1.75rem; }
+        .contact-item h3 { font-size: 0.9rem; font-weight: 600; color: var(--primary); }
+        .contact-item p { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--primary);
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.85rem;
+        }
+        footer a { color: var(--accent-light); text-decoration: none; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 1.8rem; }
+            .about-grid, .projects-grid, .skills-grid, .contact-grid { grid-template-columns: 1fr; }
+            .project-card.featured { grid-template-columns: 1fr; }
+            .project-card.featured .project-img { height: 180px; }
+            .timeline-item { grid-template-columns: 1fr; }
+            .timeline-date { text-align: left; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>陳冠霖的個人網站</h1>
-        <nav>
-            <ul>
-                <li><a href="#about">自我介紹</a></li>
-                <li><a href="#education">學經歷</a></li>
-                <li><a href="#skills">技能</a></li>
-                <li><a href="#contact">聯絡方式</a></li>
-                <li><a href="#test-model">測試模型</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <section id="about">
-        <h2>自我介紹</h2>
-        <p>你好！我是資工系的學生。</p>
-    </section>
+<!-- ── NAVIGATION ── -->
+<nav>
+    <span class="nav-brand">陳冠霖 · Chen Guan-Lin</span>
+    <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#awards">Awards</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#publications">Publications</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#demo">Demo</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
 
-    <section id="education">
-        <h2>學經歷</h2>
-        <ul>
-            <li>國立高雄大學資訊工程學系 (2020-至今)</li>
-        </ul>
-    </section>
-
-    <section id="skills">
-        <h2>技能</h2>
-        <ul>
-            <li>程式語言：C, C++, Java, Python</li>
-            <li>網頁開發：HTML, CSS, JavaScript</li>
-            <li>機器學習：PyTorch</li>
-            <li>資料庫管理：MySQL</li>
-        </ul>
-    </section>
-
-    <section id="contact">
-        <h2>聯絡方式</h2>
-        <p>歡迎與我聯絡：<a href="https://mail.google.com/mail/u/0/?fs=1&amp;tf=cm&amp;to=allen6010101@gmail.com" target="_blank" rel="noopener noreferrer">gmail</a></p>
-    </section>
-
-    <section id="test-model">
-        <h2>測試模型</h2>
-        <div class="upload-container">
-            <input type="file" id="upload" accept="image/*" onchange="previewImage()">
-            <br>
-            <img id="preview" src="" alt="圖片預覽">
-            <br>
-            <button onclick="uploadImage()">上傳並預測</button>
-            <p id="result">預測結果將顯示在這裡</p>
+<!-- ── HERO ── -->
+<div class="hero">
+    <div class="hero-inner">
+        <div class="avatar-wrap">
+            <!-- 請將你的大頭照放在 images/profile.jpg -->
+            <img src="images/profile.jpg" alt="陳冠霖"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+            <div class="avatar-placeholder" style="display:none;">👤</div>
         </div>
-    </section>
+        <h1>陳冠霖 <span>Chen Guan-Lin</span></h1>
+        <p class="hero-subtitle">
+            AI Researcher &amp; Backend Engineer<br>
+            Incoming M.S. @ National Central University (資工所 2026)
+        </p>
+        <div class="hero-tags">
+            <span class="tag">Edge AI &amp; Model Quantization</span>
+            <span class="tag">Generative AI</span>
+            <span class="tag">Spring Boot Backend</span>
+            <span class="tag">Deepfake Detection</span>
+            <span class="tag">GPA 3.97 / 4.0</span>
+        </div>
+        <div class="hero-cta">
+            <a href="mailto:allen6010101@gmail.com" class="btn btn-white">✉ Contact Me</a>
+            <a href="https://github.com/Guanisnt" target="_blank" rel="noopener" class="btn btn-outline">GitHub</a>
+            <!-- 若有履歷 PDF 可放置 -->
+            <a href="resume.pdf" target="_blank" class="btn btn-outline" style="display:none;">Download CV</a>
+        </div>
+    </div>
+</div>
 
-    <footer>
-        <p>&copy; 2024 陳冠霖的個人網站</p>
-    </footer>
+<!-- ── ABOUT ── -->
+<section id="about">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-label">Introduction</div>
+            <h2 class="section-title">About Me</h2>
+        </div>
+        <div class="about-grid">
+            <div class="about-text">
+                <p>
+                    國立高雄大學資工系大四學生（GPA 3.97），即將進入<strong>國立中央大學資工所</strong>就讀碩士。
+                    專注於 <strong>Generative AI 應用</strong>、<strong>Edge AI 模型優化</strong>與
+                    <strong>Spring Boot 後端工程</strong>，能獨立完成從 AI 研究到系統落地的全端開發。
+                </p>
+                <p>
+                    研究方向聚焦於輕量化 Deepfake 偵測系統，透過 Post-Training Quantization 技術壓縮模型、
+                    結合多模態融合架構，實現在邊緣裝置上的隱私保護即時推論。
+                    榮獲 iFuzzy 2025 最佳發表獎，全國 AI 競賽電資組第一名等多項肯定。
+                </p>
+                <p>
+                    Senior undergraduate at National University of Kaohsiung, GPA 3.97.
+                    Combines hands-on experience in Edge AI (TFLite / Quantization) deployment
+                    with proficiency in Java Spring Boot RESTful backend services.
+                </p>
+            </div>
+            <ul class="info-list">
+                <li><span class="label">📧 Email</span><a href="mailto:allen6010101@gmail.com">allen6010101@gmail.com</a></li>
+                <li><span class="label">📱 Phone</span><span>(+886) 903-622211</span></li>
+                <li><span class="label">🎓 B.S.</span><span>國立高雄大學 資工系 (2022–2026)</span></li>
+                <li><span class="label">🎓 M.S.</span><span>國立中央大學 資工所 (2026–2028, Incoming)</span></li>
+                <li><span class="label">🏅 GPA</span><span>3.97 / 4.0 &nbsp;|&nbsp; 系排 6 / 43</span></li>
+                <li><span class="label">💬 English</span><span>Business Professional — TOEIC 760</span></li>
+                <li><span class="label">💻 GitHub</span><a href="https://github.com/Guanisnt" target="_blank" rel="noopener">github.com/Guanisnt</a></li>
+            </ul>
+        </div>
+    </div>
+</section>
 
-    <script>
-        function previewImage() {
-            let file = document.getElementById("upload").files[0];
-            let reader = new FileReader();
+<!-- ── EDUCATION ── -->
+<section id="education" style="background:#fff">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-label">Academic Background</div>
+            <h2 class="section-title">Education</h2>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-date">2026.07 – 2028.08</div>
+                <div class="timeline-body">
+                    <h3>國立中央大學 National Central University</h3>
+                    <div class="degree">資訊工程學系 碩士 — M.S. in Computer Science &amp; Engineering</div>
+                    <p>畢業後即將入學，預計研究方向：Edge AI、多模態學習</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2022.09 – 2026.06</div>
+                <div class="timeline-body">
+                    <h3>國立高雄大學 National University of Kaohsiung</h3>
+                    <div class="degree">資訊工程學系 學士 — B.S. in Computer Science &amp; Engineering</div>
+                    <p>GPA 3.97 / 4.0 &nbsp;|&nbsp; 歷年系排 6 / 43 &nbsp;|&nbsp; 113-1 系排第 2、113-2 系排第 1 &nbsp;|&nbsp; 演算法、作業系統全系第一</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-            reader.onload = function(e) {
-                document.getElementById("preview").src = e.target.result;
-            }
+<!-- ── AWARDS ── -->
+<section id="awards">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-label">Competitions &amp; Honors</div>
+            <h2 class="section-title">Awards</h2>
+        </div>
+        <div class="awards-grid">
 
-            if (file) {
-                reader.readAsDataURL(file);
-            }
+            <div class="award-card">
+                <div>
+                    <div class="award-badge">🏆 佳作 / Honorable Award</div>
+                    <h3>2026 智慧創新大賞 Best AI Awards — AI 應用類學生組</h3>
+                    <p>開發 PocketDefender 多模態輕量化 Deepfake 偵測系統，壓縮模型體積超過 72%，AUC 92.78%，部署於 Flutter App 與 Chrome Extension（主辦：經濟部產業技術司）。</p>
+                </div>
+                <span class="award-date">2026-04</span>
+            </div>
+
+            <div class="award-card">
+                <div>
+                    <div class="award-badge" style="background:#d1fae5;color:#065f46;">🥇 第一名</div>
+                    <h3>2025 全國 AI 專題創意競賽 — 資電領域組</h3>
+                    <p>開發具隱私保護之輕量化 Deepfake 偵測系統，採 MobileNetV3-Large + GRU 架構，導入 Cross-Dataset Training 與 PTQ 模型壓縮，榮獲全國資電領域組第一名。</p>
+                </div>
+                <span class="award-date">2025-11</span>
+            </div>
+
+            <div class="award-card">
+                <div>
+                    <div class="award-badge">🏅 佳作</div>
+                    <h3>第 30 屆大專院校資訊應用服務創新競賽（InnoServe）— 資安技術組</h3>
+                    <p>發表「具隱私保護之輕量化深度偽造檢測系統」，展現系統架構設計、競品分析與跨領域技術溝通能力。</p>
+                </div>
+                <span class="award-date">2025-11</span>
+            </div>
+
+            <div class="award-card">
+                <div>
+                    <div class="award-badge blue">📄 Best Presentation Award</div>
+                    <h3>Best Session Presentation Award — iFuzzy 2025 (International Conference on Fuzzy Theory and Its Applications)</h3>
+                    <p>Presented a lightweight Deepfake detection system using MobileNetV3 + GRU with Cross-Dataset Training and identity-disjoint splits for improved generalization.</p>
+                </div>
+                <span class="award-date">2025-11</span>
+            </div>
+
+            <div class="award-card">
+                <div>
+                    <div class="award-badge blue">🌐 ICPC</div>
+                    <h3>2026-ICPC Asia Taichung Regional Contest — Honorable Mention</h3>
+                    <p>國際大學生程式設計競賽亞洲區台中站，展現進階演算法（動態規劃、圖論）實作與高壓團隊協作能力。</p>
+                </div>
+                <span class="award-date">2025-11</span>
+            </div>
+
+            <div class="award-card">
+                <div>
+                    <div class="award-badge" style="background:#ede9fe;color:#5b21b6;">📊 CPE</div>
+                    <h3>CPE 大學程式能力檢定 — 全國前 2.8%</h3>
+                    <p>C++ 演算法與資料結構解題能力達全國前 2.8%。</p>
+                </div>
+                <span class="award-date">2025-03</span>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section id="projects" style="background:#fff">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-label">Portfolio</div>
+            <h2 class="section-title">Projects</h2>
+        </div>
+        <div class="projects-grid">
+
+            <!-- FEATURED -->
+            <div class="project-card featured">
+                <div class="project-img">
+                    <!-- 請將截圖放在 images/pocket-defender.jpg -->
+                    <img src="images/pocket-defender.jpg" alt="PocketDefender"
+                         onerror="this.parentElement.innerHTML='<span style=\'padding:1rem\'>📷 images/pocket-defender.jpg</span>'">
+                </div>
+                <div class="project-body">
+                    <h3>🛡 PocketDefender — 輕量化 Deepfake 偵測系統</h3>
+                    <ul>
+                        <li>提出 MobileNetV3-Large + GRU 輕量化時序架構，結合 Res2Net-AFF 音訊模型進行多模態特徵融合</li>
+                        <li>透過 TFLite Post-Training Quantization (PTQ)，壓縮模型超過 72%，Celeb-DF v2 上量化後仍維持 AUC 94.50%</li>
+                        <li>開發 Flutter Android 行動端即時偵測系統，支援全機離線運作，保護使用者隱私</li>
+                        <li>獲 2026 Best AI Awards 佳作、2025 全國 AI 競賽資電組第一名、InnoServe 資安技術組佳作</li>
+                    </ul>
+                    <div class="project-tags">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">TensorFlow Lite</span>
+                        <span class="tech-tag">MobileNetV3</span>
+                        <span class="tech-tag">GRU</span>
+                        <span class="tech-tag">PTQ</span>
+                        <span class="tech-tag">Flutter</span>
+                        <span class="tech-tag">Edge AI</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-img">
+                    <!-- 請將截圖放在 images/contest-system.png -->
+                    <img src="images/contest-system.jpg" alt="激發學生創意競賽管理系統"
+                         onerror="this.parentElement.innerHTML='<span style=\'padding:1rem\'>📷 images/contest-system.png</span>'">
+                </div>
+                <div class="project-body">
+                    <h3>🏫 激發學生創意競賽管理系統</h3>
+                    <p>設計並開發高雄大學創意競賽設計管理系統，涵蓋報名、評分與公告發布。
+                    擔任後端主開發者（Spring Boot + MySQL），撰寫 RESTful API；
+                    v2 版擔任主席主持需求會議，撰寫 SRS / SDD，前端改用 Flutter Web + PHP + MariaDB，並負責 Figma UI 設計。</p>
+                    <div class="project-tags">
+                        <span class="tech-tag">Spring Boot</span>
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">Flutter</span>
+                        <span class="tech-tag">PHP</span>
+                        <span class="tech-tag">RESTful API</span>
+                        <span class="tech-tag">Figma</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-img">
+                    <!-- 請將截圖放在 images/java-game.png -->
+                    <img src="images/java-game.jpg" alt="Java 多人連線遊戲"
+                         onerror="this.parentElement.innerHTML='<span style=\'padding:1rem\'>📷 images/java-game.png</span>'">
+                </div>
+                <div class="project-body">
+                    <h3>🎮 Java 多人連線遊戲 (GAMEBALL)</h3>
+                    <p>以 Java Swing 打造 GUI，採 Client–Server 架構與 Socket Programming 進行封包傳輸。
+                    負責以 UDP Message-Oriented 特性實現遊戲狀態同步，並協助 TCP 多人聊天室功能，Server 端以 multi-thread 處理多個 client 連線。</p>
+                    <div class="project-tags">
+                        <span class="tech-tag">Java</span>
+                        <span class="tech-tag">Java Swing</span>
+                        <span class="tech-tag">UDP / TCP</span>
+                        <span class="tech-tag">Multi-threading</span>
+                        <span class="tech-tag">Socket</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-img">
+                    <!-- 請將截圖放在 images/ai-news.png -->
+                    <img src="images/ai-news.jpg" alt="AIversity_NEWS"
+                         onerror="this.parentElement.innerHTML='<span style=\'padding:1rem\'>📷 images/ai-news.png</span>'">
+                </div>
+                <div class="project-body">
+                    <h3>📰 AIversity_NEWS</h3>
+                    <p>在 Linux 環境中透過 Generative AI 打造具前瞻性的新聞整合平台，打破地域與語言限制。
+                    串接 Google Generative AI API（Gemma 模型），結合 Prompt Engineering 進行新聞時序分析，
+                    並將分析結果存入 Supabase（PostgreSQL）遠端資料庫。</p>
+                    <div class="project-tags">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Gemma</span>
+                        <span class="tech-tag">Google AI API</span>
+                        <span class="tech-tag">Supabase</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                        <span class="tech-tag">Prompt Engineering</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ── PUBLICATIONS ── -->
+<section id="publications">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-label">Research</div>
+            <h2 class="section-title">Publications</h2>
+        </div>
+
+        <div class="pub-card">
+            <h3>Lightweight Deepfake Detection with Privacy-Preserving Edge Deployment</h3>
+            <div class="venue">Best Session Presentation Award — 2025 International Conference on Fuzzy Theory and Its Applications (iFuzzy 2025)</div>
+            <p>
+                Built a lightweight Deepfake detector using MobileNetV3 and GRU, optimizing model efficiency by cropping specific facial features instead of scanning the full face.
+                Applied Cross-Dataset Training with identity-disjoint splits to prevent identity leakage and improve generalization on unseen data.
+                Post-Training Quantization (TFLite) deployed on Android for fully offline, privacy-preserving inference.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<!-- ── SKILLS ── -->
+<section id="skills" style="background:#fff">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-label">Technical Expertise</div>
+            <h2 class="section-title">Skills</h2>
+        </div>
+        <div class="skills-grid">
+            <div class="skill-group">
+                <h3>Programming Languages</h3>
+                <div class="skill-chips">
+                    <span class="skill-chip pro">C / C++</span>
+                    <span class="skill-chip pro">Java</span>
+                    <span class="skill-chip pro">Python</span>
+                </div>
+            </div>
+            <div class="skill-group">
+                <h3>AI / ML</h3>
+                <div class="skill-chips">
+                    <span class="skill-chip pro">TensorFlow / TFLite</span>
+                    <span class="skill-chip pro">PyTorch</span>
+                    <span class="skill-chip mid">Model Quantization (PTQ)</span>
+                    <span class="skill-chip mid">Edge AI Deployment</span>
+                    <span class="skill-chip mid">Generative AI</span>
+                </div>
+            </div>
+            <div class="skill-group">
+                <h3>Backend</h3>
+                <div class="skill-chips">
+                    <span class="skill-chip mid">Spring Boot</span>
+                    <span class="skill-chip mid">RESTful API</span>
+                    <span class="skill-chip mid">MySQL / MariaDB</span>
+                    <span class="skill-chip mid">PHP</span>
+                    <span class="skill-chip mid">Supabase</span>
+                </div>
+            </div>
+            <div class="skill-group">
+                <h3>Frontend &amp; Mobile</h3>
+                <div class="skill-chips">
+                    <span class="skill-chip mid">Flutter</span>
+                    <span class="skill-chip beg">HTML / CSS</span>
+                    <span class="skill-chip beg">JavaScript</span>
+                </div>
+            </div>
+            <div class="skill-group">
+                <h3>Tools &amp; DevOps</h3>
+                <div class="skill-chips">
+                    <span class="skill-chip mid">Git / GitHub</span>
+                    <span class="skill-chip mid">Linux</span>
+                    <span class="skill-chip mid">Postman</span>
+                    <span class="skill-chip mid">Figma</span>
+                </div>
+            </div>
+            <div class="skill-group">
+                <h3>Languages</h3>
+                <div class="skill-chips">
+                    <span class="skill-chip pro">Chinese (Native)</span>
+                    <span class="skill-chip mid">English (TOEIC 760)</span>
+                </div>
+            </div>
+        </div>
+        <div class="skill-legend">
+            <span><span class="dot" style="background:var(--primary)"></span> Proficient 精通</span>
+            <span><span class="dot" style="background:#93c5fd"></span> Intermediate 中階</span>
+            <span><span class="dot" style="background:#e2e8f0"></span> Beginner 初學</span>
+        </div>
+    </div>
+</section>
+
+<!-- ── DEMO ── -->
+<section id="demo">
+    <div class="container">
+        <div class="section-header" style="text-align:center">
+            <div class="section-label">Live Demo</div>
+            <h2 class="section-title">Deepfake Detection Demo</h2>
+            <p style="color:var(--text-muted);font-size:0.9rem;margin-top:0.5rem">
+                上傳人臉圖片，即時偵測是否為 Deepfake（需後端服務運行）
+            </p>
+        </div>
+        <div class="demo-card">
+            <h3>🛡 PocketDefender — 圖片偵測</h3>
+            <p>選擇一張人臉圖片，送至本地模型推論端點進行 Deepfake 偵測。</p>
+            <div class="upload-zone" onclick="document.getElementById('upload').click()">
+                <div>📁 點擊或拖曳圖片至此</div>
+                <input type="file" id="upload" accept="image/*" style="display:none" onchange="previewImage()">
+                <img id="preview" src="" alt="預覽圖片">
+            </div>
+            <button class="btn btn-accent" onclick="uploadImage()">上傳並偵測</button>
+            <p id="result"></p>
+        </div>
+    </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact" style="background:#fff">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-label">Get in Touch</div>
+            <h2 class="section-title">Contact</h2>
+        </div>
+        <div class="contact-grid">
+            <a href="mailto:allen6010101@gmail.com" class="contact-item">
+                <span class="contact-icon">✉️</span>
+                <div>
+                    <h3>Email</h3>
+                    <p>allen6010101@gmail.com</p>
+                </div>
+            </a>
+            <a href="https://github.com/Guanisnt" target="_blank" rel="noopener" class="contact-item">
+                <span class="contact-icon">💻</span>
+                <div>
+                    <h3>GitHub</h3>
+                    <p>github.com/Guanisnt</p>
+                </div>
+            </a>
+            <div class="contact-item" style="cursor:default">
+                <span class="contact-icon">📱</span>
+                <div>
+                    <h3>Phone</h3>
+                    <p>(+886) 903-622211</p>
+                </div>
+            </div>
+            <div class="contact-item" style="cursor:default">
+                <span class="contact-icon">📍</span>
+                <div>
+                    <h3>Location</h3>
+                    <p>Taiwan (Remote / On-site)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+    <p>© 2026 陳冠霖 Chen Guan-Lin &nbsp;·&nbsp;
+       <a href="mailto:allen6010101@gmail.com">allen6010101@gmail.com</a>
+    </p>
+</footer>
+
+<script>
+    function previewImage() {
+        const file = document.getElementById('upload').files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = e => {
+            const img = document.getElementById('preview');
+            img.src = e.target.result;
+            img.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function uploadImage() {
+        const fileInput = document.getElementById('upload');
+        const resultEl = document.getElementById('result');
+        if (!fileInput.files[0]) {
+            resultEl.textContent = '請先選擇一張圖片。';
+            return;
         }
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]);
+        resultEl.textContent = '偵測中…';
 
-        function uploadImage() {
-            let fileInput = document.getElementById("upload");
-            let file = fileInput.files[0];
-
-            if (!file) {
-                document.getElementById("result").innerText = "請選擇圖片再上傳！";
-                return;
-            }
-
-            let formData = new FormData();
-            formData.append("file", file);
-
-            fetch("http://127.0.0.1:5000/predict", {
-                method: "POST",
-                body: formData
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP 錯誤！狀態碼: ${response.status}`);
-                }
-                return response.json();  // 確保 response 解析成 JSON
+        fetch('http://127.0.0.1:5000/predict', { method: 'POST', body: formData })
+            .then(r => {
+                if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                return r.json();
             })
             .then(data => {
-                console.log("前端收到預測結果：", data); // 確保前端真的收到
-                if (data.result) {
-                    document.getElementById("result").innerText = "預測結果: " + data.result;
-                } else {
-                    document.getElementById("result").innerText = "預測失敗，請檢查伺服器！";
-                }
+                resultEl.textContent = data.result
+                    ? '預測結果：' + data.result
+                    : '偵測失敗，請確認伺服器是否啟動。';
             })
-            .catch(error => {
-                console.error("錯誤:", error);
-                document.getElementById("result").innerText = "發生錯誤，請檢查伺服器！";
+            .catch(err => {
+                console.error(err);
+                resultEl.textContent = '無法連線至本地伺服器（127.0.0.1:5000）。';
             });
-        }
+    }
 
-    </script>
+    // Intersection Observer: fade-in on scroll
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.style.opacity = '1';
+                e.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.award-card, .project-card, .timeline-body, .pub-card, .contact-item').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(el);
+    });
+</script>
+
 </body>
 </html>
