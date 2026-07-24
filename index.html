@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chen Guan-Lin | 陳冠霖 — AI Researcher & Backend Engineer</title>
-    <meta name="description" content="陳冠霖 Chen Guan-Lin — AI Research, Edge AI Optimization, Spring Boot Backend Engineering. Incoming M.S. student at National Central University.">
+    <meta name="description" content="陳冠霖 Chen Guan-Lin — AI Research, Edge AI Optimization, HPC Systems, Spring Boot Backend Engineering. Incoming M.S. student at National Central University.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -50,11 +50,11 @@
         .nav-brand { font-weight: 700; color: var(--primary); font-size: 1rem; letter-spacing: 0.01em; }
         .nav-links { display: flex; gap: 0.25rem; list-style: none; }
         .nav-links a {
-            padding: 0.4rem 0.85rem;
+            padding: 0.4rem 0.7rem;
             border-radius: 6px;
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.875rem;
+            font-size: 0.86rem;
             font-weight: 500;
             transition: color 0.2s, background 0.2s;
         }
@@ -110,7 +110,6 @@
         /* ── LAYOUT ── */
         .container { max-width: 960px; margin: 0 auto; padding: 0 2rem; }
         section { padding: 4rem 0; }
-        section:nth-child(even) { background: #fff; }
 
         .section-header { margin-bottom: 2.5rem; }
         .section-label {
@@ -132,7 +131,7 @@
         .info-list a { color: var(--accent); text-decoration: none; }
         .info-list a:hover { text-decoration: underline; }
 
-        /* ── EDUCATION ── */
+        /* ── TIMELINE (Education / Experience) ── */
         .timeline { display: flex; flex-direction: column; gap: 1.5rem; }
         .timeline-item {
             display: grid;
@@ -151,6 +150,9 @@
         .timeline-body h3 { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 0.15rem; }
         .timeline-body .degree { font-size: 0.875rem; font-weight: 500; color: var(--accent); margin-bottom: 0.4rem; }
         .timeline-body p { font-size: 0.875rem; color: var(--text-muted); }
+        .timeline-body ul { padding-left: 1.1rem; font-size: 0.875rem; color: var(--text-muted); margin-top: 0.5rem; }
+        .timeline-body ul li { margin-bottom: 0.3rem; }
+        .timeline-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.9rem; }
 
         /* ── AWARDS ── */
         .awards-grid { display: flex; flex-direction: column; gap: 1rem; }
@@ -212,6 +214,15 @@
             padding: 0.2rem 0.55rem;
             border-radius: 4px;
         }
+        .project-link {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-decoration: none;
+            margin-bottom: 0.9rem;
+        }
+        .project-link:hover { text-decoration: underline; }
         .project-card.featured { grid-column: 1 / -1; display: grid; grid-template-columns: 340px 1fr; }
         .project-card.featured .project-img { height: 100%; min-height: 200px; }
         .project-card.featured .project-body { padding: 1.75rem; }
@@ -304,6 +315,7 @@
     <ul class="nav-links">
         <li><a href="#about">About</a></li>
         <li><a href="#education">Education</a></li>
+        <li><a href="#experience">Experience</a></li>
         <li><a href="#awards">Awards</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#publications">Publications</a></li>
@@ -323,12 +335,13 @@
         </div>
         <h1>陳冠霖 <span>Chen Guan-Lin</span></h1>
         <p class="hero-subtitle">
-M.S. @ National Central University (資工所 2026~)
+M.S. @ National Central University (資工所 2026~) &nbsp;·&nbsp; HPC Intern @ NCHC
         </p>
         <div class="hero-tags">
             <span class="tag">Edge AI &amp; Model Quantization</span>
             <span class="tag">Generative AI</span>
             <span class="tag">Deepfake Detection</span>
+            <span class="tag">HPC Systems</span>
         </div>
         <div class="hero-cta">
             <a href="mailto:chen.guanlin.dev@gmail.com" class="btn btn-white">✉ Contact Me</a>
@@ -341,7 +354,7 @@ M.S. @ National Central University (資工所 2026~)
 </div>
 
 <!-- ── ABOUT ── -->
-<section id="about">
+<section id="about" style="background:var(--bg)">
     <div class="container">
         <div class="section-header">
             <div class="section-label">Introduction</div>
@@ -350,7 +363,7 @@ M.S. @ National Central University (資工所 2026~)
         <div class="about-grid">
             <div class="about-text">
                 <p>
-                    國立高雄大學資工系畢業（GPA 3.97），即將就讀<strong>國立中央大學資工所</strong>碩士班。
+                    目前<strong>就讀國立中央大學資工所</strong>碩士班。畢業於國立高雄大學資工系（GPA 3.98）
                     專注於 <strong>Generative AI 應用</strong>、<strong>Edge AI 模型優化</strong>與
                     <strong>Spring Boot 後端工程</strong>，能獨立完成從 AI 研究到系統落地的全端開發。
                 </p>
@@ -360,9 +373,14 @@ M.S. @ National Central University (資工所 2026~)
                     榮獲 iFuzzy 2025 最佳發表獎，全國 AI 競賽電資組第一名等多項肯定。
                 </p>
                 <p>
+                    目前於<strong>國家高速網路與計算中心（NCHC）</strong>超級電腦維運部門實習，
+                    負責 Forerunner 叢集的儲存配額治理、效能測試與 LLM 工作流程文件化，
+                    將 AI 部署經驗延伸到 HPC 資源排程與環境資安的實務場景。
+                </p>
+                <p>
                     Senior undergraduate at National University of Kaohsiung, GPA 3.97.
                     Combines hands-on experience in Edge AI (TFLite / Quantization) deployment
-                    with proficiency in Java Spring Boot RESTful backend services.
+                    with HPC cluster operations and Java Spring Boot RESTful backend services.
                 </p>
             </div>
             <ul class="info-list">
@@ -370,6 +388,7 @@ M.S. @ National Central University (資工所 2026~)
                 <li><span class="label">📱 Phone</span><span>(+886) 903-622211</span></li>
                 <li><span class="label">🎓 B.S.</span><span>國立高雄大學 資工系 (2022–2026)</span></li>
                 <li><span class="label">🎓 M.S.</span><span>國立中央大學 資工所 (2026–~)</span></li>
+                <li><span class="label">💼 Intern</span><span>國家高速網路與計算中心 NCHC — 超級電腦系統維運</span></li>
                 <li><span class="label">💻 GitHub</span><a href="https://github.com/Guanisnt" target="_blank" rel="noopener">github.com/Guanisnt</a></li>
                 <li><span class="label">🔗 LinkedIn</span><a href="https://www.linkedin.com/in/冠霖-陳-80242334b/" target="_blank" rel="noopener">linkedin.com/in/冠霖-陳-80242334b</a></li>
             </ul>
@@ -405,8 +424,42 @@ M.S. @ National Central University (資工所 2026~)
     </div>
 </section>
 
+<!-- ── EXPERIENCE ── -->
+<section id="experience" style="background:var(--bg)">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-label">Work Experience</div>
+            <h2 class="section-title">Experience</h2>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-date">2026 Summer</div>
+                <div class="timeline-body">
+                    <h3>國家高速網路與計算中心 NCHC</h3>
+                    <div class="degree">超級電腦系統維運部門 實習生 — HPC Operations Intern</div>
+                    <ul>
+                        <li>除錯 GPFS 配額管理腳本，運用 <strong>mmsetquota</strong> 指令與 <strong>jq</strong> 進行資料解析，修復多行變數處理錯誤</li>
+                        <li>開發孤兒目錄（Orphaned Directory）偵測與分析工具，協助叢集儲存空間治理</li>
+                        <li>於 Forerunner 叢集執行 GPU 效能測試與壓力測試（Benchmarking / Stress Test）</li>
+                        <li>撰寫 Ollama on Slurm 部署指南與 SLURM Job Agent 工具，改善使用者的資源排程行為與環境資安</li>
+                        <li>實作 HPC 基礎架構：InfiniBand 網路、Fat-tree 拓撲、LDAP / GPFS 權限管理、Slurm 排程、Ansible / pdsh 叢集自動化、VirtualGL</li>
+                    </ul>
+                    <div class="timeline-tags">
+                        <span class="tech-tag">SLURM</span>
+                        <span class="tech-tag">GPFS</span>
+                        <span class="tech-tag">Bash</span>
+                        <span class="tech-tag">Linux</span>
+                        <span class="tech-tag">InfiniBand</span>
+                        <span class="tech-tag">Ansible</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- ── AWARDS ── -->
-<section id="awards">
+<section id="awards" style="background:#fff">
     <div class="container">
         <div class="section-header">
             <div class="section-label">Competitions &amp; Honors</div>
@@ -473,7 +526,7 @@ M.S. @ National Central University (資工所 2026~)
 </section>
 
 <!-- ── PROJECTS ── -->
-<section id="projects" style="background:#fff">
+<section id="projects" style="background:var(--bg)">
     <div class="container">
         <div class="section-header">
             <div class="section-label">Portfolio</div>
@@ -504,6 +557,57 @@ M.S. @ National Central University (資工所 2026~)
                         <span class="tech-tag">PTQ</span>
                         <span class="tech-tag">Flutter</span>
                         <span class="tech-tag">Edge AI</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-img">
+                    <!-- 請將截圖放在 images/slurm-agent.jpg -->
+                    <img src="images/slurm_agent.png" alt="SLURM Job Agent"
+                         onerror="this.parentElement.innerHTML='<span style=\'padding:1rem\'>📷 images/slurm-agent.jpg</span>'">
+                </div>
+                <div class="project-body">
+                    <h3>🤖 SLURM Job Agent — HPC 排程輔助 CLI Agent</h3>
+                    <a class="project-link" href="https://github.com/Guanisnt/Slurm_Sbatch_Agent" target="_blank" rel="noopener">↗ github.com/Guanisnt/Slurm_Sbatch_Agent</a>
+                    <ul>
+                        <li>命令列 LLM Agent，將自然語言需求轉換為可直接複製使用的 SLURM sbatch 腳本</li>
+                        <li>採刻意收斂的 Co-pilot 設計：Agent 僅能產生腳本文字與讀取佇列狀態，程式中不存在寫檔、呼叫 sbatch 或送出工作的路徑</li>
+                        <li>Human-in-the-loop 機制，每個 tool call 執行前完整列出參數，未經同意不執行</li>
+                        <li>分區白名單、核心數上限、時間格式等叢集限制以 Python 獨立驗證，不依賴模型判斷；帳號憑證僅存於本機設定檔，不進入 Prompt</li>
+                    </ul>
+                    <div class="project-tags">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Gemini API</span>
+                        <span class="tech-tag">Function Calling</span>
+                        <span class="tech-tag">SLURM</span>
+                        <span class="tech-tag">LLM Agent</span>
+                        <span class="tech-tag">MIT License</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-img">
+                    <!-- 請將截圖放在 images/ollama-slurm.jpg -->
+                    <img src="images/ollama_slurm_job.png" alt="Ollama on Slurm"
+                         onerror="this.parentElement.innerHTML='<span style=\'padding:1rem\'>📷 images/ollama-slurm.jpg</span>'">
+                </div>
+                <div class="project-body">
+                    <h3>📘 Ollama on Slurm — HPC 叢集部署最佳實踐指南</h3>
+                    <ul>
+                        <li>針對使用者直接於 login node 執行 Ollama server 所造成的資安疑慮與資源競爭，撰寫進階部署指南，將服務隔離至配置的運算節點</li>
+                        <li><strong>Batch Mode</strong>：將 Ollama server 啟動與指定 prompt 一併嵌入 SLURM job script，於背景自動完成推論</li>
+                        <li><strong>Interactive API Mode</strong>：以 SLURM job 啟動常駐服務，使用者可透過 CLI API 呼叫即時與 LLM 互動對話</li>
+                        <li>文件化兩種流程，引導叢集使用者建立 HPC 資源排程最佳實踐並強化環境資安</li>
+                    </ul>
+                    <div class="project-tags">
+                        <span class="tech-tag">Ollama</span>
+                        <span class="tech-tag">SLURM</span>
+                        <span class="tech-tag">HPC</span>
+                        <span class="tech-tag">Bash</span>
+                        <span class="tech-tag">LLM Deployment</span>
+                        <span class="tech-tag">Technical Writing</span>
                     </div>
                 </div>
             </div>
@@ -577,7 +681,7 @@ M.S. @ National Central University (資工所 2026~)
 </section>
 
 <!-- ── PUBLICATIONS ── -->
-<section id="publications">
+<section id="publications" style="background:#fff">
     <div class="container">
         <div class="section-header">
             <div class="section-label">Research</div>
@@ -598,7 +702,7 @@ M.S. @ National Central University (資工所 2026~)
 </section>
 
 <!-- ── SKILLS ── -->
-<section id="skills" style="background:#fff">
+<section id="skills" style="background:var(--bg)">
     <div class="container">
         <div class="section-header">
             <div class="section-label">Technical Expertise</div>
@@ -611,6 +715,7 @@ M.S. @ National Central University (資工所 2026~)
                     <span class="skill-chip pro">C / C++</span>
                     <span class="skill-chip pro">Java</span>
                     <span class="skill-chip mid">Python</span>
+                    <span class="skill-chip mid">Bash Script</span>
                 </div>
             </div>
             <div class="skill-group">
@@ -621,6 +726,18 @@ M.S. @ National Central University (資工所 2026~)
                     <span class="skill-chip mid">Model Quantization (PTQ)</span>
                     <span class="skill-chip mid">Edge AI Deployment</span>
                     <span class="skill-chip mid">Generative AI</span>
+                    <span class="skill-chip mid">LLM Agent / Function Calling</span>
+                </div>
+            </div>
+            <div class="skill-group">
+                <h3>HPC &amp; Systems</h3>
+                <div class="skill-chips">
+                    <span class="skill-chip mid">SLURM</span>
+                    <span class="skill-chip mid">GPFS</span>
+                    <span class="skill-chip mid">InfiniBand</span>
+                    <span class="skill-chip mid">Ansible / pdsh</span>
+                    <span class="skill-chip mid">Ollama Deployment</span>
+                    <span class="skill-chip beg">LDAP</span>
                 </div>
             </div>
             <div class="skill-group">
@@ -646,6 +763,7 @@ M.S. @ National Central University (資工所 2026~)
                 <div class="skill-chips">
                     <span class="skill-chip mid">Git / GitHub</span>
                     <span class="skill-chip mid">Linux</span>
+                    <span class="skill-chip mid">Docker / Singularity</span>
                     <span class="skill-chip mid">Postman</span>
                     <span class="skill-chip mid">Figma</span>
                 </div>
