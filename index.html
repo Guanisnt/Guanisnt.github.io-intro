@@ -243,6 +243,37 @@
         .pub-card .venue { font-size: 0.85rem; color: var(--success); font-weight: 500; margin-bottom: 0.3rem; }
         .pub-card p { font-size: 0.85rem; color: var(--text-muted); }
 
+        /* ── MEDIA COVERAGE ── */
+        .media-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+        .media-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 4px solid #c0392b;
+            border-radius: var(--radius);
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .media-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+        .media-meta { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+        .media-outlet {
+            background: #fee2e2;
+            color: #991b1b;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+        }
+        .media-outlet.video { background: #ede9fe; color: #5b21b6; }
+        .media-date { font-size: 0.78rem; color: var(--text-muted); }
+        .media-card h3 { font-size: 0.95rem; font-weight: 700; color: var(--primary); margin-bottom: 0.4rem; line-height: 1.55; }
+        .media-card p { font-size: 0.85rem; color: var(--text-muted); flex: 1; }
+        .media-readmore { font-size: 0.8rem; font-weight: 600; color: var(--accent); margin-top: 0.9rem; }
+        .media-card:hover .media-readmore { text-decoration: underline; }
+
         /* ── SKILLS ── */
         .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
         .skill-group h3 {
@@ -299,7 +330,7 @@
         @media (max-width: 768px) {
             .nav-links { display: none; }
             .hero h1 { font-size: 1.8rem; }
-            .about-grid, .projects-grid, .skills-grid, .contact-grid { grid-template-columns: 1fr; }
+            .about-grid, .projects-grid, .skills-grid, .contact-grid, .media-grid { grid-template-columns: 1fr; }
             .project-card.featured { grid-template-columns: 1fr; }
             .project-card.featured .project-img { height: 180px; }
             .timeline-item { grid-template-columns: 1fr; }
@@ -319,6 +350,7 @@
         <li><a href="#awards">Awards</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#publications">Publications</a></li>
+        <li><a href="#media">Media</a></li>
         <li><a href="#skills">Skills</a></li>
         <li><a href="#contact">Contact</a></li>
     </ul>
@@ -729,6 +761,39 @@ M.S. @ National Central University (資工所 2026~) &nbsp;·&nbsp; HPC Intern @
     </div>
 </section>
 
+<!-- ── MEDIA COVERAGE ── -->
+<section id="media" style="background:var(--bg)">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-label">In the News</div>
+            <h2 class="section-title">相關報導 · Media Coverage</h2>
+        </div>
+        <div class="media-grid">
+
+            <a class="media-card" href="https://news.pts.org.tw/article/790943" target="_blank" rel="noopener">
+                <div class="media-meta">
+                    <span class="media-outlet video">📺 公視新聞網 PNN</span>
+                    <span class="media-date">2026-01-16</span>
+                </div>
+                <h3>高雄大學開發偵測系統 破解換臉、變音等深偽影片</h3>
+                <p>電視新聞專訪，於鏡頭前示範系統即時判讀網路上的換臉與變聲影片，並說明模型如何從五官周圍的偽造特徵進行判斷。記者：王柔婷、陳顯坤。</p>
+                <span class="media-readmore">↗ 觀看報導與採訪影片</span>
+            </a>
+
+            <a class="media-card" href="https://news.ltn.com.tw/news/life/breakingnews/5303394" target="_blank" rel="noopener">
+                <div class="media-meta">
+                    <span class="media-outlet">📰 自由時報</span>
+                    <span class="media-date">2026-01-08</span>
+                </div>
+                <h3>破解換臉、變聲影片 高雄大學開發手機 Deepfake 偵測系統</h3>
+                <p>以團隊組長身分受訪，說明輕量化模型與影音多模態一致性檢測的設計思路，以及量化後於行動裝置端完成推論、無須上傳雲端的隱私保護優勢。記者：蔡清華。</p>
+                <span class="media-readmore">↗ 閱讀報導全文</span>
+            </a>
+
+        </div>
+    </div>
+</section>
+
 <!-- ── SKILLS ── -->
 <section id="skills" style="background:var(--bg)">
     <div class="container">
@@ -880,7 +945,7 @@ M.S. @ National Central University (資工所 2026~) &nbsp;·&nbsp; HPC Intern @
         });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.award-card, .project-card, .timeline-body, .pub-card, .contact-item').forEach(el => {
+    document.querySelectorAll('.award-card, .project-card, .timeline-body, .pub-card, .contact-item, .media-card').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
         el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
