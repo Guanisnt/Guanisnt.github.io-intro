@@ -570,6 +570,7 @@ M.S. @ National Central University (資工所 2026~) &nbsp;·&nbsp; HPC Intern @
                 </div>
                 <div class="project-body">
                     <h3>📦 PyLauncher on Forerunner1 — 大量參數掃描的排程開銷優化</h3>
+                    <a class="project-link" href="https://imminent-howler-787.notion.site/Pylauncher-3adce9036c0080929abae815c9c84138?source=copy_link" target="_blank" rel="noopener"> </a>
                     <ul>
                         <li>於 F1 叢集部署 <strong>PyLauncher</strong>，將參數掃描產生的大量獨立小型工作打包進單一 SLURM allocation，把 11 次 job 提交降為 1 次，減輕排程器負擔與佇列佔用</li>
                         <li>直接閱讀原始碼，找出官方文件與 pip 版本（v4.0）間的四項未記載落差，包含<strong>不會拋出錯誤的靜默失敗</strong>：預設主機偵測邏輯僅比對 TACC 專屬主機名稱，在非 TACC 叢集上會退化為單節點執行</li>
