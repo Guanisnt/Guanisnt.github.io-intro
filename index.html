@@ -431,6 +431,20 @@ section:nth-of-type(even){background:var(--bg-alt)}
 }
 .shot img{width:100%;height:100%;object-fit:cover;display:block}
 .shot .ph{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);padding:1rem;text-align:center}
+/* 影片版的 shot：改用 16:9 比例取代固定高度 */
+.shot.media-shot{
+  height:auto;
+  aspect-ratio:16 / 9;
+  background:#000;
+}
+.shot.media-shot video,
+.shot.media-shot iframe{
+  width:100%;
+  height:100%;
+  display:block;
+  border:0;
+  object-fit:cover;
+}
 .proj-body{padding:1.35rem 1.5rem;display:flex;flex-direction:column;flex:1}
 .proj-body h3{font-family:var(--f-display);font-size:var(--t-1);font-weight:600;letter-spacing:-.018em;margin-bottom:.55rem}
 .proj-body p,.proj-body li{font-size:var(--t--1);color:var(--muted)}
@@ -887,10 +901,11 @@ footer a:hover{text-decoration:underline}
 
       <!-- ─ CHROME EXTENSION ─ -->
       <div class="proj card reveal">
-        <div class="shot">
-          <!-- images/chrome-extension.jpg -->
-          <img src="images/pocketdefender_chrome_extension.png" alt="Deepfake Detection Chrome Extension"
-               onerror="this.parentElement.innerHTML='<span class=&quot;ph&quot;>images/chrome-extension.jpg</span>'">
+        <div class="shot media-shot">
+            <video src="videos/pocketdefender_chrome_extension.mp4"
+                    muted loop autoplay playsinline preload="metadata">
+                您的瀏覽器不支援影片播放。
+            </video>
         </div>
         <div class="proj-body">
           <h3>Deepfake 偵測 Chrome Extension（TensorFlow.js）</h3>
