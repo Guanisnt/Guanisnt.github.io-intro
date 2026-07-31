@@ -409,7 +409,7 @@ M.S. @ National Central University (資工所 2026~) &nbsp;·&nbsp; HPC Intern @
                 <div class="timeline-body">
                     <h3>國立中央大學 National Central University</h3>
                     <div class="degree">資訊工程學系 碩士 — M.S. in Computer Science &amp; Engineering</div>
-                    <p>預計研究方向：Edge AI、多模態學習</p>
+                    <p>預計研究方向：Object Detection</p>
                 </div>
             </div>
             <div class="timeline-item">
@@ -417,7 +417,7 @@ M.S. @ National Central University (資工所 2026~) &nbsp;·&nbsp; HPC Intern @
                 <div class="timeline-body">
                     <h3>國立高雄大學 National University of Kaohsiung</h3>
                     <div class="degree">資訊工程學系 學士 — B.S. in Computer Science &amp; Engineering</div>
-                    <p>GPA 3.97 / 4.0 &nbsp;|&nbsp; 歷年系排 6 / 43 &nbsp;|&nbsp; 113-1 系排第 2、113-2 系排第 1 &nbsp;|&nbsp; 演算法、作業系統全系第一</p>
+                    <p>GPA 3.98 / 4.0 &nbsp;|&nbsp; 歷年系排 6 / 43 &nbsp;|&nbsp; 113-1 系排第 2、113-2 系排第 1 &nbsp;|&nbsp; 演算法、作業系統全系第一</p>
                 </div>
             </div>
         </div>
@@ -557,6 +557,32 @@ M.S. @ National Central University (資工所 2026~) &nbsp;·&nbsp; HPC Intern @
                         <span class="tech-tag">PTQ</span>
                         <span class="tech-tag">Flutter</span>
                         <span class="tech-tag">Edge AI</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-img">
+                    <!-- 請將截圖放在 images/pylauncher.jpg -->
+                    <img src="images/pylauncher_poster.png" alt="PyLauncher on Forerunner1"
+                         onerror="this.parentElement.innerHTML='<span style=\'padding:1rem\'>📷 images/pylauncher.jpg</span>'">
+                </div>
+                <div class="project-body">
+                    <h3>📦 PyLauncher on Forerunner1 — 大量參數掃描的排程開銷優化</h3>
+                    <ul>
+                        <li>於 F1 叢集部署 <strong>PyLauncher</strong>，將參數掃描產生的大量獨立小型工作打包進單一 SLURM allocation，把 11 次 job 提交降為 1 次，減輕排程器負擔與佇列佔用</li>
+                        <li>直接閱讀原始碼，找出官方文件與 pip 版本（v4.0）間的四項未記載落差，包含<strong>不會拋出錯誤的靜默失敗</strong>：預設主機偵測邏輯僅比對 TACC 專屬主機名稱，在非 TACC 叢集上會退化為單節點執行</li>
+                        <li>改以 <strong>SLURMHostList</strong> 手動組裝 LauncherJob 繞過該問題，並以 <code>cores=&lt;實體核心數&gt;</code> 維持每個任務的節點獨佔性；雙節點實測 dispatch speedup 達 1.99×（理論上限 2.0×），量測結果與逐一提交基準的逐點誤差平均僅 3.1%</li>
+                        <li>將 conda 環境封裝為自訂 <strong>Lmod module</strong>，解決 sbatch 與 SSH 等非互動式 shell 中 <code>conda activate</code> 初始化失效的問題，並撰寫完整部署指南供其他叢集使用者參考</li>
+                    </ul>
+                    <div class="project-tags">
+                        <span class="tech-tag">PyLauncher</span>
+                        <span class="tech-tag">SLURM</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Lmod</span>
+                        <span class="tech-tag">Singularity</span>
+                        <span class="tech-tag">HPC</span>
+                        <span class="tech-tag">Technical Writing</span>
                     </div>
                 </div>
             </div>
