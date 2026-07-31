@@ -1,956 +1,1367 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-TW" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chen Guan-Lin | 陳冠霖 — AI Researcher & Backend Engineer</title>
-    <meta name="description" content="陳冠霖 Chen Guan-Lin — AI Research, Edge AI Optimization, HPC Systems, Spring Boot Backend Engineering. Incoming M.S. student at National Central University.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary:    #1e3a5f;
-            --accent:     #2e86c1;
-            --accent-light: #5dade2;
-            --success:    #1a8754;
-            --bg:         #f8fafc;
-            --surface:    #ffffff;
-            --border:     #e2e8f0;
-            --text:       #1a202c;
-            --text-muted: #64748b;
-            --shadow:     0 4px 24px rgba(30,58,95,0.08);
-            --radius:     12px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chen Guan-Lin | 陳冠霖 — Edge AI Researcher & Systems Engineer</title>
+<meta name="description" content="陳冠霖 Chen Guan-Lin — Edge AI 模型優化、HPC 系統維運、Deepfake 偵測研究。國立中央大學資工所碩士生。">
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 
-        html { scroll-behavior: smooth; }
+<style>
+/* ════════════════════════════════════════════
+   TOKENS
+   ════════════════════════════════════════════ */
+:root{
+  --f-display:'Space Grotesk','Noto Sans TC',sans-serif;
+  --f-body:'Inter','Noto Sans TC',sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
 
-        body {
-            font-family: 'Inter', 'Noto Sans TC', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.7;
-        }
+  --t--1:.8125rem;
+  --t-0:.9375rem;
+  --t-1:1.0625rem;
+  --t-2:1.375rem;
+  --t-3:1.875rem;
+  --t-4:clamp(2.1rem,5.5vw,3.3rem);
 
-        /* ── NAV ── */
-        nav {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(255,255,255,0.92);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border);
-            padding: 0 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 60px;
-        }
-        .nav-brand { font-weight: 700; color: var(--primary); font-size: 1rem; letter-spacing: 0.01em; }
-        .nav-links { display: flex; gap: 0.25rem; list-style: none; }
-        .nav-links a {
-            padding: 0.4rem 0.7rem;
-            border-radius: 6px;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.86rem;
-            font-weight: 500;
-            transition: color 0.2s, background 0.2s;
-        }
-        .nav-links a:hover { color: var(--accent); background: #eff6ff; }
+  --r-xs:4px; --r-sm:6px; --r-md:10px; --r-lg:14px;
+  --nav-h:60px;
+  --maxw:1080px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
 
-        /* ── HERO ── */
-        .hero {
-            background: linear-gradient(135deg, var(--primary) 0%, #2c5282 55%, var(--accent) 100%);
-            color: #fff;
-            padding: 5rem 2rem 4rem;
-            text-align: center;
-        }
-        .hero-inner { max-width: 760px; margin: 0 auto; }
-        .avatar-wrap {
-            width: 140px; height: 140px;
-            border-radius: 50%;
-            border: 4px solid rgba(255,255,255,0.6);
-            margin: 0 auto 1.5rem;
-            overflow: hidden;
-            background: rgba(255,255,255,0.15);
-            display: flex; align-items: center; justify-content: center;
-        }
-        .avatar-wrap img { width: 100%; height: 100%; object-fit: cover; }
-        .avatar-placeholder { font-size: 3rem; opacity: 0.6; }
-        .hero h1 { font-size: 2.4rem; font-weight: 700; margin-bottom: 0.4rem; }
-        .hero h1 span { font-size: 1.3rem; font-weight: 300; opacity: 0.85; margin-left: 0.5rem; }
-        .hero-subtitle { font-size: 1.05rem; opacity: 0.9; margin-bottom: 1.5rem; font-weight: 300; }
-        .hero-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 2rem; }
-        .tag {
-            background: rgba(255,255,255,0.15);
-            border: 1px solid rgba(255,255,255,0.3);
-            padding: 0.3rem 0.85rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-        .hero-cta { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
-        .btn {
-            padding: 0.65rem 1.5rem;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.2s;
-            cursor: pointer;
-            border: none;
-        }
-        .btn-white { background: #fff; color: var(--primary); }
-        .btn-white:hover { background: #e8f4ff; transform: translateY(-1px); }
-        .btn-outline { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.6); }
-        .btn-outline:hover { background: rgba(255,255,255,0.1); transform: translateY(-1px); }
+html[data-theme="dark"]{
+  --bg:#0a0d13;
+  --bg-alt:#0d1119;
+  --surface:#10151e;
+  --surface-2:#141b26;
+  --border:#1e2733;
+  --border-hi:#31415a;
+  --text:#e6ebf2;
+  --muted:#8593a6;
+  --accent:#58a6ff;
+  --accent-dim:rgba(88,166,255,.12);
+  --amber:#e3b341;   --amber-dim:rgba(227,179,65,.12);
+  --green:#3fb950;   --green-dim:rgba(63,185,80,.12);
+  --violet:#a371f7;  --violet-dim:rgba(163,113,247,.12);
+  --red:#f85149;     --red-dim:rgba(248,81,73,.12);
+  --grid:rgba(255,255,255,.04);
+  --glow:rgba(88,166,255,.10);
+}
+html[data-theme="light"]{
+  --bg:#f5f7fa;
+  --bg-alt:#ffffff;
+  --surface:#ffffff;
+  --surface-2:#f1f4f9;
+  --border:#dde4ee;
+  --border-hi:#a9bad2;
+  --text:#0e161f;
+  --muted:#57626f;
+  --accent:#0b63ce;
+  --accent-dim:rgba(11,99,206,.08);
+  --amber:#8a5c00;   --amber-dim:rgba(138,92,0,.09);
+  --green:#0a6b34;   --green-dim:rgba(10,107,52,.09);
+  --violet:#5c2fb3;  --violet-dim:rgba(92,47,179,.09);
+  --red:#b32218;     --red-dim:rgba(179,34,24,.09);
+  --grid:rgba(14,22,31,.045);
+  --glow:rgba(11,99,206,.07);
+}
 
-        /* ── LAYOUT ── */
-        .container { max-width: 960px; margin: 0 auto; padding: 0 2rem; }
-        section { padding: 4rem 0; }
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 16px)}
+body{
+  font-family:var(--f-body);
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.72;
+  font-size:var(--t-0);
+  -webkit-font-smoothing:antialiased;
+  transition:background .3s var(--ease),color .3s var(--ease);
+}
+a{color:inherit}
+::selection{background:var(--accent-dim);color:var(--text)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:var(--r-xs)}
 
-        .section-header { margin-bottom: 2.5rem; }
-        .section-label {
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--accent);
-            margin-bottom: 0.4rem;
-        }
-        .section-title { font-size: 1.75rem; font-weight: 700; color: var(--primary); }
+/* ── scroll progress ── */
+#progress{
+  position:fixed;top:0;left:0;height:2px;width:0%;
+  background:var(--accent);z-index:200;
+  transition:width .08s linear;
+}
 
-        /* ── ABOUT ── */
-        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-        .about-text p { color: var(--text-muted); margin-bottom: 1rem; font-size: 0.975rem; }
-        .info-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
-        .info-list li { display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.9rem; }
-        .info-list .label { font-weight: 600; color: var(--primary); min-width: 56px; }
-        .info-list a { color: var(--accent); text-decoration: none; }
-        .info-list a:hover { text-decoration: underline; }
+/* ════════════════════════════════════════════
+   NAV
+   ════════════════════════════════════════════ */
+nav{
+  position:sticky;top:0;z-index:150;
+  height:var(--nav-h);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(1rem,4vw,2rem);
+  background:color-mix(in srgb,var(--bg) 82%,transparent);
+  backdrop-filter:blur(14px) saturate(150%);
+  -webkit-backdrop-filter:blur(14px) saturate(150%);
+  border-bottom:1px solid var(--border);
+}
+.brand{
+  font-family:var(--f-mono);
+  font-size:var(--t--1);
+  font-weight:600;
+  letter-spacing:-.01em;
+  text-decoration:none;
+  display:flex;align-items:center;gap:.55rem;
+}
+.brand .dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 0 3px var(--green-dim);
+  flex:none;
+}
+.nav-right{display:flex;align-items:center;gap:.5rem}
+.nav-links{display:flex;gap:.1rem;list-style:none}
+.nav-links a{
+  display:block;
+  padding:.35rem .6rem;
+  border-radius:var(--r-sm);
+  color:var(--muted);
+  text-decoration:none;
+  font-family:var(--f-mono);
+  font-size:.75rem;
+  font-weight:500;
+  letter-spacing:.01em;
+  transition:color .18s,background .18s;
+}
+.nav-links a:hover{color:var(--text);background:var(--surface-2)}
+.nav-links a.active{color:var(--accent);background:var(--accent-dim)}
 
-        /* ── TIMELINE (Education / Experience) ── */
-        .timeline { display: flex; flex-direction: column; gap: 1.5rem; }
-        .timeline-item {
-            display: grid;
-            grid-template-columns: 120px 1fr;
-            gap: 1.5rem;
-            align-items: start;
-        }
-        .timeline-date { font-size: 0.82rem; color: var(--text-muted); font-weight: 500; padding-top: 0.2rem; text-align: right; }
-        .timeline-body {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-left: 4px solid var(--accent);
-            border-radius: var(--radius);
-            padding: 1.2rem 1.5rem;
-        }
-        .timeline-body h3 { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 0.15rem; }
-        .timeline-body .degree { font-size: 0.875rem; font-weight: 500; color: var(--accent); margin-bottom: 0.4rem; }
-        .timeline-body p { font-size: 0.875rem; color: var(--text-muted); }
-        .timeline-body ul { padding-left: 1.1rem; font-size: 0.875rem; color: var(--text-muted); margin-top: 0.5rem; }
-        .timeline-body ul li { margin-bottom: 0.3rem; }
-        .timeline-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.9rem; }
+.icon-btn{
+  width:34px;height:34px;flex:none;
+  display:grid;place-items:center;
+  border:1px solid var(--border);
+  border-radius:var(--r-sm);
+  background:var(--surface);
+  color:var(--muted);
+  cursor:pointer;
+  transition:color .18s,border-color .18s,background .18s;
+}
+.icon-btn:hover{color:var(--text);border-color:var(--border-hi)}
+.icon-btn svg{width:16px;height:16px}
+#menu-btn{display:none}
+html[data-theme="dark"] .ico-sun{display:block}
+html[data-theme="dark"] .ico-moon{display:none}
+html[data-theme="light"] .ico-sun{display:none}
+html[data-theme="light"] .ico-moon{display:block}
 
-        /* ── AWARDS ── */
-        .awards-grid { display: flex; flex-direction: column; gap: 1rem; }
-        .award-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.2rem 1.5rem;
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 0.5rem 1rem;
-            align-items: start;
-            transition: box-shadow 0.2s, transform 0.2s;
-        }
-        .award-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
-        .award-badge {
-            display: inline-block;
-            background: #fef3c7;
-            color: #92400e;
-            font-size: 0.72rem;
-            font-weight: 700;
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
-            margin-bottom: 0.4rem;
-        }
-        .award-badge.blue { background: #dbeafe; color: #1e40af; }
-        .award-badge.green { background: #d1fae5; color: #065f46; }
-        .award-card h3 { font-size: 0.95rem; font-weight: 600; color: var(--primary); }
-        .award-card p { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem; grid-column: 1 / -1; }
-        .award-date { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; padding-top: 0.25rem; }
+/* mobile drawer */
+#drawer{
+  position:fixed;inset:var(--nav-h) 0 auto 0;
+  z-index:140;
+  background:var(--bg-alt);
+  border-bottom:1px solid var(--border);
+  padding:.6rem clamp(1rem,4vw,2rem) 1.1rem;
+  display:none;
+}
+#drawer.open{display:block;animation:drop .22s var(--ease)}
+@keyframes drop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+#drawer ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:.2rem}
+#drawer a{
+  display:block;padding:.6rem .7rem;border-radius:var(--r-sm);
+  font-family:var(--f-mono);font-size:.8rem;color:var(--muted);text-decoration:none;
+}
+#drawer a:hover,#drawer a:focus{background:var(--surface-2);color:var(--text)}
 
-        /* ── PROJECTS ── */
-        .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-        .project-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            overflow: hidden;
-            transition: box-shadow 0.2s, transform 0.2s;
-        }
-        .project-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
-        .project-img {
-            width: 100%; height: 180px;
-            object-fit: cover;
-            background: linear-gradient(135deg, #dbeafe, #ede9fe);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.8rem; color: var(--text-muted); font-style: italic;
-        }
-        .project-img img { width: 100%; height: 100%; object-fit: cover; }
-        .project-body { padding: 1.25rem; }
-        .project-body h3 { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; }
-        .project-body p { font-size: 0.865rem; color: var(--text-muted); margin-bottom: 1rem; }
-        .project-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-        .tech-tag {
-            background: #eff6ff;
-            color: var(--accent);
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 0.2rem 0.55rem;
-            border-radius: 4px;
-        }
-        .project-link {
-            display: inline-block;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--accent);
-            text-decoration: none;
-            margin-bottom: 0.9rem;
-        }
-        .project-link:hover { text-decoration: underline; }
-        .project-card.featured { grid-column: 1 / -1; display: grid; grid-template-columns: 340px 1fr; }
-        .project-card.featured .project-img { height: 100%; min-height: 200px; }
-        .project-card.featured .project-body { padding: 1.75rem; }
-        .project-card.featured h3 { font-size: 1.15rem; }
-        .project-body ul { padding-left: 1.1rem; font-size: 0.865rem; color: var(--text-muted); margin-bottom: 1rem; }
-        .project-body ul li { margin-bottom: 0.3rem; }
+/* ════════════════════════════════════════════
+   HERO
+   ════════════════════════════════════════════ */
+.hero{
+  position:relative;overflow:hidden;
+  padding:clamp(3.5rem,9vw,6rem) clamp(1rem,4vw,2rem) 0;
+  border-bottom:1px solid var(--border);
+  background:var(--bg-alt);
+}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(var(--grid) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:56px 56px;
+  mask-image:radial-gradient(ellipse 75% 65% at 50% 30%,#000 20%,transparent 78%);
+  -webkit-mask-image:radial-gradient(ellipse 75% 65% at 50% 30%,#000 20%,transparent 78%);
+  pointer-events:none;
+}
+.hero::after{
+  content:"";position:absolute;
+  top:-32%;left:50%;transform:translateX(-50%);
+  width:min(920px,120%);height:520px;
+  background:radial-gradient(circle,var(--glow),transparent 65%);
+  pointer-events:none;
+}
+.hero-inner{position:relative;max-width:760px;margin:0 auto;text-align:center}
 
-        /* ── PUBLICATIONS ── */
-        .pub-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-left: 4px solid var(--success);
-            border-radius: var(--radius);
-            padding: 1.2rem 1.5rem;
-            margin-bottom: 1rem;
-        }
-        .pub-card h3 { font-size: 0.95rem; font-weight: 600; color: var(--primary); margin-bottom: 0.3rem; }
-        .pub-card .venue { font-size: 0.85rem; color: var(--success); font-weight: 500; margin-bottom: 0.3rem; }
-        .pub-card p { font-size: 0.85rem; color: var(--text-muted); }
+.avatar{
+  width:104px;height:104px;margin:0 auto 1.6rem;
+  border-radius:var(--r-lg);
+  overflow:hidden;
+  border:1px solid var(--border-hi);
+  background:var(--surface-2);
+  display:grid;place-items:center;
+  box-shadow:0 10px 40px -18px rgba(0,0,0,.6);
+}
+.avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.avatar .fallback{font-family:var(--f-mono);font-size:1.6rem;color:var(--muted)}
 
-        /* ── MEDIA COVERAGE ── */
-        .media-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
-        .media-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-left: 4px solid #c0392b;
-            border-radius: var(--radius);
-            padding: 1.2rem 1.5rem;
-            display: flex;
-            flex-direction: column;
-            text-decoration: none;
-            color: inherit;
-            transition: box-shadow 0.2s, transform 0.2s;
-        }
-        .media-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
-        .media-meta { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
-        .media-outlet {
-            background: #fee2e2;
-            color: #991b1b;
-            font-size: 0.72rem;
-            font-weight: 700;
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
-        }
-        .media-outlet.video { background: #ede9fe; color: #5b21b6; }
-        .media-date { font-size: 0.78rem; color: var(--text-muted); }
-        .media-card h3 { font-size: 0.95rem; font-weight: 700; color: var(--primary); margin-bottom: 0.4rem; line-height: 1.55; }
-        .media-card p { font-size: 0.85rem; color: var(--text-muted); flex: 1; }
-        .media-readmore { font-size: 0.8rem; font-weight: 600; color: var(--accent); margin-top: 0.9rem; }
-        .media-card:hover .media-readmore { text-decoration: underline; }
+.eyebrow{
+  font-family:var(--f-mono);
+  font-size:.7rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:.9rem;
+}
+.hero h1{
+  font-family:var(--f-display);
+  font-size:var(--t-4);
+  font-weight:700;
+  letter-spacing:-.035em;
+  line-height:1.08;
+  margin-bottom:.35rem;
+}
+.hero h1 .en{
+  display:block;
+  font-size:.4em;
+  font-weight:500;
+  letter-spacing:.02em;
+  color:var(--muted);
+  margin-top:.6rem;
+}
+.hero-role{
+  font-size:var(--t-0);
+  color:var(--muted);
+  max-width:52ch;margin:1.1rem auto 0;
+}
+.hero-role strong{color:var(--text);font-weight:600}
 
-        /* ── SKILLS ── */
-        .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-        .skill-group h3 {
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--text-muted);
-            margin-bottom: 0.75rem;
-        }
-        .skill-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-        .skill-chip {
-            padding: 0.35rem 0.75rem;
-            border-radius: 6px;
-            font-size: 0.82rem;
-            font-weight: 500;
-        }
-        .skill-chip.pro { background: var(--primary); color: #fff; }
-        .skill-chip.mid { background: #dbeafe; color: #1e40af; }
-        .skill-chip.beg { background: #f1f5f9; color: var(--text-muted); }
-        .skill-legend { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
-        .skill-legend span { font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.4rem; }
-        .dot { width: 10px; height: 10px; border-radius: 2px; }
+.tags{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin:1.6rem 0 2rem}
+.tag{
+  font-family:var(--f-mono);
+  font-size:.7rem;
+  padding:.3rem .65rem;
+  border:1px solid var(--border);
+  border-radius:100px;
+  color:var(--muted);
+  background:var(--surface);
+}
+.cta{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-bottom:3rem}
+.btn{
+  display:inline-flex;align-items:center;gap:.45rem;
+  padding:.6rem 1.1rem;
+  border-radius:var(--r-sm);
+  font-size:.85rem;font-weight:600;
+  text-decoration:none;
+  border:1px solid transparent;
+  transition:transform .18s var(--ease),background .18s,border-color .18s,color .18s;
+}
+.btn svg{width:15px;height:15px}
+.btn-primary{background:var(--accent);color:#04101f;border-color:var(--accent)}
+html[data-theme="light"] .btn-primary{color:#fff}
+.btn-primary:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btn-ghost{background:var(--surface);color:var(--text);border-color:var(--border)}
+.btn-ghost:hover{transform:translateY(-2px);border-color:var(--border-hi)}
 
+/* stat strip */
+.stats{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  max-width:820px;margin:0 auto;
+  border-top:1px solid var(--border);
+}
+.stat{padding:1.4rem .6rem;border-right:1px solid var(--border)}
+.stat:last-child{border-right:0}
+.stat b{
+  display:block;
+  font-family:var(--f-mono);
+  font-size:1.35rem;font-weight:600;
+  letter-spacing:-.02em;
+  color:var(--text);
+}
+.stat span{
+  display:block;
+  font-family:var(--f-mono);
+  font-size:.65rem;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);margin-top:.3rem;
+}
 
-        /* ── CONTACT ── */
-        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-        .contact-item {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            display: flex; align-items: center; gap: 1rem;
-            text-decoration: none;
-            color: var(--text);
-            transition: box-shadow 0.2s, transform 0.2s;
-        }
-        .contact-item:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
-        .contact-icon { font-size: 1.75rem; }
-        .contact-item h3 { font-size: 0.9rem; font-weight: 600; color: var(--primary); }
-        .contact-item p { font-size: 0.85rem; color: var(--text-muted); }
+/* ════════════════════════════════════════════
+   SECTION SHELL
+   ════════════════════════════════════════════ */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(1rem,4vw,2rem)}
+section{padding:clamp(3.5rem,7vw,5.5rem) 0;border-bottom:1px solid var(--border)}
+section:nth-of-type(even){background:var(--bg-alt)}
 
-        /* ── FOOTER ── */
-        footer {
-            background: var(--primary);
-            color: rgba(255,255,255,0.7);
-            text-align: center;
-            padding: 2rem;
-            font-size: 0.85rem;
-        }
-        footer a { color: var(--accent-light); text-decoration: none; }
+.s-head{margin-bottom:2.6rem}
+.s-kicker{
+  display:flex;align-items:center;gap:.7rem;
+  font-family:var(--f-mono);
+  font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:.6rem;
+}
+.s-kicker::after{content:"";flex:1;height:1px;background:var(--border)}
+.s-title{
+  font-family:var(--f-display);
+  font-size:var(--t-3);font-weight:600;letter-spacing:-.028em;
+}
 
-        /* ── RESPONSIVE ── */
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .hero h1 { font-size: 1.8rem; }
-            .about-grid, .projects-grid, .skills-grid, .contact-grid, .media-grid { grid-template-columns: 1fr; }
-            .project-card.featured { grid-template-columns: 1fr; }
-            .project-card.featured .project-img { height: 180px; }
-            .timeline-item { grid-template-columns: 1fr; }
-            .timeline-date { text-align: left; }
-        }
-    </style>
+/* shared card */
+.card{
+  position:relative;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-md);
+  transition:border-color .22s var(--ease),transform .22s var(--ease),background .22s;
+}
+.card::before{
+  content:"";position:absolute;top:9px;left:9px;
+  width:9px;height:9px;
+  border-top:1px solid var(--accent);
+  border-left:1px solid var(--accent);
+  opacity:.28;transition:opacity .22s;
+}
+.card:hover{border-color:var(--border-hi);transform:translateY(-2px)}
+.card:hover::before{opacity:1}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:1rem}
+.chip{
+  font-family:var(--f-mono);
+  font-size:.68rem;
+  padding:.2rem .5rem;
+  border-radius:var(--r-xs);
+  border:1px solid var(--border);
+  color:var(--muted);
+  background:var(--surface-2);
+}
+.badge{
+  display:inline-block;
+  font-family:var(--f-mono);
+  font-size:.66rem;font-weight:600;letter-spacing:.05em;
+  padding:.2rem .55rem;border-radius:var(--r-xs);
+  background:var(--accent-dim);color:var(--accent);
+  border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);
+}
+.badge.gold{background:var(--amber-dim);color:var(--amber);border-color:color-mix(in srgb,var(--amber) 25%,transparent)}
+.badge.green{background:var(--green-dim);color:var(--green);border-color:color-mix(in srgb,var(--green) 25%,transparent)}
+.badge.violet{background:var(--violet-dim);color:var(--violet);border-color:color-mix(in srgb,var(--violet) 25%,transparent)}
+.badge.red{background:var(--red-dim);color:var(--red);border-color:color-mix(in srgb,var(--red) 25%,transparent)}
+
+/* ════════════════════════════════════════════
+   ABOUT
+   ════════════════════════════════════════════ */
+.about{display:grid;grid-template-columns:1.15fr .85fr;gap:2.5rem}
+.about p{color:var(--muted);margin-bottom:1rem}
+.about p strong{color:var(--text);font-weight:600}
+.about .en-block{
+  font-size:var(--t--1);
+  border-left:2px solid var(--border);
+  padding-left:1rem;margin-top:1.5rem;
+}
+.facts{list-style:none;display:flex;flex-direction:column;border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden}
+.facts li{
+  display:grid;grid-template-columns:78px 1fr;gap:.8rem;
+  padding:.75rem 1rem;
+  border-bottom:1px solid var(--border);
+  font-size:var(--t--1);
+  align-items:baseline;
+}
+.facts li:last-child{border-bottom:0}
+.facts .k{
+  font-family:var(--f-mono);font-size:.66rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);
+}
+.facts .v{color:var(--text);word-break:break-word}
+.facts a{color:var(--accent);text-decoration:none}
+.facts a:hover{text-decoration:underline}
+
+/* ════════════════════════════════════════════
+   TIMELINE
+   ════════════════════════════════════════════ */
+.timeline{display:flex;flex-direction:column;gap:1.2rem}
+.tl-item{display:grid;grid-template-columns:132px 1fr;gap:1.6rem;align-items:start}
+.tl-date{
+  font-family:var(--f-mono);font-size:.72rem;letter-spacing:.03em;
+  color:var(--muted);text-align:right;padding-top:1.35rem;
+}
+.tl-body{padding:1.25rem 1.5rem}
+.tl-body h3{font-family:var(--f-display);font-size:var(--t-1);font-weight:600;letter-spacing:-.015em}
+.tl-body .sub{font-size:var(--t--1);color:var(--accent);margin:.15rem 0 .5rem;font-weight:500}
+.tl-body p,.tl-body li{font-size:var(--t--1);color:var(--muted)}
+.tl-body ul{padding-left:1.05rem;margin-top:.55rem;display:flex;flex-direction:column;gap:.35rem}
+.tl-body ul li::marker{color:var(--border-hi)}
+.tl-body strong{color:var(--text);font-weight:600}
+.meta-line{
+  font-family:var(--f-mono);font-size:.72rem;color:var(--muted);
+  display:flex;flex-wrap:wrap;gap:.5rem .9rem;margin-top:.2rem;
+}
+
+/* ════════════════════════════════════════════
+   AWARDS
+   ════════════════════════════════════════════ */
+.awards{display:flex;flex-direction:column;gap:.9rem}
+.award{
+  padding:1.2rem 1.5rem;
+  display:grid;grid-template-columns:1fr auto;gap:.4rem 1rem;align-items:start;
+}
+.award h3{font-size:var(--t-0);font-weight:600;margin-top:.5rem;letter-spacing:-.008em}
+.award p{grid-column:1/-1;font-size:var(--t--1);color:var(--muted);margin-top:.35rem}
+.award .when{font-family:var(--f-mono);font-size:.72rem;color:var(--muted);white-space:nowrap;padding-top:.2rem}
+
+/* ════════════════════════════════════════════
+   PROJECTS
+   ════════════════════════════════════════════ */
+.projects{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.proj{display:flex;flex-direction:column;overflow:hidden}
+.shot{
+  height:180px;flex:none;
+  background:
+    linear-gradient(var(--grid) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px),
+    var(--surface-2);
+  background-size:22px 22px,22px 22px,auto;
+  display:grid;place-items:center;
+  border-bottom:1px solid var(--border);
+  overflow:hidden;
+}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+.shot .ph{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);padding:1rem;text-align:center}
+.proj-body{padding:1.35rem 1.5rem;display:flex;flex-direction:column;flex:1}
+.proj-body h3{font-family:var(--f-display);font-size:var(--t-1);font-weight:600;letter-spacing:-.018em;margin-bottom:.55rem}
+.proj-body p,.proj-body li{font-size:var(--t--1);color:var(--muted)}
+.proj-body ul{padding-left:1.05rem;display:flex;flex-direction:column;gap:.4rem}
+.proj-body ul li::marker{color:var(--border-hi)}
+.proj-body strong{color:var(--text);font-weight:600}
+.proj-body code{font-family:var(--f-mono);font-size:.92em;background:var(--surface-2);padding:.05rem .3rem;border-radius:var(--r-xs);border:1px solid var(--border)}
+.proj-link{
+  display:inline-flex;align-items:center;gap:.35rem;
+  font-family:var(--f-mono);font-size:.72rem;font-weight:500;
+  color:var(--accent);text-decoration:none;margin-bottom:.85rem;
+  word-break:break-all;
+}
+.proj-link:hover{text-decoration:underline}
+.proj-link svg{width:12px;height:12px;flex:none}
+.proj .chips{margin-top:auto;padding-top:1rem}
+
+.proj.featured{grid-column:1/-1;flex-direction:row}
+.proj.featured .shot{width:340px;height:auto;border-bottom:0;border-right:1px solid var(--border)}
+.proj.featured .proj-body{padding:1.75rem}
+.proj.featured h3{font-size:var(--t-2)}
+
+/* ════════════════════════════════════════════
+   MEDIA COVERAGE
+   ════════════════════════════════════════════ */
+.media{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.media-card{
+  padding:1.3rem 1.5rem;
+  display:flex;flex-direction:column;
+  text-decoration:none;color:inherit;
+}
+.media-top{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.7rem}
+.media-card h3{font-size:var(--t-0);font-weight:600;line-height:1.5;margin-bottom:.45rem;letter-spacing:-.008em}
+.media-card p{font-size:var(--t--1);color:var(--muted);flex:1}
+.media-go{
+  font-family:var(--f-mono);font-size:.72rem;color:var(--accent);
+  margin-top:1rem;display:inline-flex;align-items:center;gap:.35rem;
+}
+.media-go svg{width:12px;height:12px}
+.media-card:hover .media-go{text-decoration:underline}
+
+/* ════════════════════════════════════════════
+   PUBLICATIONS
+   ════════════════════════════════════════════ */
+.pub{padding:1.35rem 1.6rem;border-left:2px solid var(--green)}
+.pub h3{font-size:var(--t-0);font-weight:600;margin:.55rem 0 .35rem;letter-spacing:-.008em}
+.pub .venue{font-family:var(--f-mono);font-size:.73rem;color:var(--green);margin-bottom:.6rem}
+.pub p{font-size:var(--t--1);color:var(--muted)}
+.pub-tags{display:flex;flex-wrap:wrap;gap:.4rem}
+
+/* ════════════════════════════════════════════
+   SKILLS
+   ════════════════════════════════════════════ */
+.skills{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem 2rem}
+.sg h3{
+  font-family:var(--f-mono);
+  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:.8rem;
+  padding-bottom:.5rem;border-bottom:1px solid var(--border);
+}
+.sk{display:flex;flex-wrap:wrap;gap:.35rem}
+.sk span{
+  font-family:var(--f-mono);font-size:.72rem;
+  padding:.28rem .6rem;border-radius:var(--r-xs);
+  border:1px solid var(--border);background:var(--surface);color:var(--muted);
+}
+.sk span.pro{border-color:color-mix(in srgb,var(--accent) 45%,transparent);color:var(--accent);background:var(--accent-dim)}
+.sk span.mid{color:var(--text);background:var(--surface-2)}
+.legend{display:flex;gap:1.4rem;flex-wrap:wrap;margin-top:2rem;padding-top:1.2rem;border-top:1px solid var(--border)}
+.legend span{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);display:flex;align-items:center;gap:.45rem}
+.sw{width:9px;height:9px;border-radius:2px;border:1px solid var(--border)}
+
+/* ════════════════════════════════════════════
+   CONTACT
+   ════════════════════════════════════════════ */
+.contacts{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.ct{
+  padding:1.25rem 1.4rem;
+  display:flex;align-items:center;gap:1rem;
+  text-decoration:none;color:inherit;
+}
+.ct .ic{
+  width:38px;height:38px;flex:none;
+  display:grid;place-items:center;
+  border:1px solid var(--border);border-radius:var(--r-sm);
+  background:var(--surface-2);color:var(--accent);
+}
+.ct .ic svg{width:17px;height:17px}
+.ct h3{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.ct p{font-size:var(--t--1);color:var(--text);word-break:break-all}
+
+/* ════════════════════════════════════════════
+   FOOTER
+   ════════════════════════════════════════════ */
+footer{
+  padding:2.5rem 0;
+  text-align:center;
+  font-family:var(--f-mono);
+  font-size:.72rem;
+  color:var(--muted);
+  background:var(--bg-alt);
+}
+footer a{color:var(--accent);text-decoration:none}
+footer a:hover{text-decoration:underline}
+.f-sep{opacity:.4;margin:0 .55rem}
+
+/* ════════════════════════════════════════════
+   REVEAL
+   ════════════════════════════════════════════ */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .55s var(--ease),transform .55s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none}
+}
+
+/* ════════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════════ */
+@media (max-width:980px){
+  .about{grid-template-columns:1fr}
+  .skills{grid-template-columns:repeat(2,1fr)}
+  .proj.featured{flex-direction:column}
+  .proj.featured .shot{width:100%;height:200px;border-right:0;border-bottom:1px solid var(--border)}
+}
+@media (max-width:820px){
+  .nav-links{display:none}
+  #menu-btn{display:grid}
+  .projects,.media,.contacts{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat:nth-child(2){border-right:0}
+  .stat:nth-child(1),.stat:nth-child(2){border-bottom:1px solid var(--border)}
+  .tl-item{grid-template-columns:1fr;gap:.5rem}
+  .tl-date{text-align:left;padding-top:0}
+}
+@media (max-width:560px){
+  .skills{grid-template-columns:1fr}
+  .award{grid-template-columns:1fr}
+  .award .when{padding-top:0}
+  #drawer ul{grid-template-columns:1fr}
+  .facts li{grid-template-columns:1fr;gap:.1rem}
+}
+</style>
 </head>
 <body>
 
-<!-- ── NAVIGATION ── -->
+<div id="progress"></div>
+
+<!-- ══════════ NAV ══════════ -->
 <nav>
-    <span class="nav-brand">陳冠霖 · Chen Guan-Lin</span>
+  <a href="#top" class="brand"><span class="dot"></span>chen-guan-lin</a>
+  <div class="nav-right">
     <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#education">Education</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#awards">Awards</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#publications">Publications</a></li>
-        <li><a href="#media">Media</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#contact">Contact</a></li>
+      <li><a href="#about">about</a></li>
+      <li><a href="#education">education</a></li>
+      <li><a href="#experience">experience</a></li>
+      <li><a href="#awards">awards</a></li>
+      <li><a href="#projects">projects</a></li>
+      <li><a href="#media">media</a></li>
+      <li><a href="#publications">research</a></li>
+      <li><a href="#skills">skills</a></li>
+      <li><a href="#contact">contact</a></li>
     </ul>
+    <button class="icon-btn" id="theme-btn" type="button" aria-label="切換深色／淺色主題">
+      <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+    </button>
+    <button class="icon-btn" id="menu-btn" type="button" aria-label="開啟選單" aria-expanded="false" aria-controls="drawer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
 </nav>
 
-<!-- ── HERO ── -->
-<div class="hero">
-    <div class="hero-inner">
-        <div class="avatar-wrap">
-            <!-- 請將你的大頭照放在 images/profile.jpg -->
-            <img src="images/profile.JPG" alt="陳冠霖"
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
-            <div class="avatar-placeholder" style="display:none;">👤</div>
-        </div>
-        <h1>陳冠霖 <span>Chen Guan-Lin</span></h1>
-        <p class="hero-subtitle">
-M.S. @ National Central University (資工所 2026~) &nbsp;·&nbsp; HPC Intern @ NCHC
-        </p>
-        <div class="hero-tags">
-            <span class="tag">Edge AI &amp; Model Quantization</span>
-            <span class="tag">Generative AI</span>
-            <span class="tag">Deepfake Detection</span>
-            <span class="tag">HPC Systems</span>
-        </div>
-        <div class="hero-cta">
-            <a href="mailto:chen.guanlin.dev@gmail.com" class="btn btn-white">✉ Contact Me</a>
-            <a href="https://github.com/Guanisnt" target="_blank" rel="noopener" class="btn btn-outline">GitHub</a>
-            <a href="https://www.linkedin.com/in/冠霖-陳-80242334b/" target="_blank" rel="noopener" class="btn btn-outline">LinkedIn</a>
-            <!-- 若有履歷 PDF 可放置 -->
-            <a href="resume.pdf" target="_blank" class="btn btn-outline" style="display:none;">Download CV</a>
-        </div>
-    </div>
+<div id="drawer">
+  <ul>
+    <li><a href="#about">about</a></li>
+    <li><a href="#education">education</a></li>
+    <li><a href="#experience">experience</a></li>
+    <li><a href="#awards">awards</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#media">media</a></li>
+    <li><a href="#publications">research</a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
 </div>
 
-<!-- ── ABOUT ── -->
-<section id="about" style="background:var(--bg)">
-    <div class="container">
-        <div class="section-header">
-            <div class="section-label">Introduction</div>
-            <h2 class="section-title">About Me</h2>
-        </div>
-        <div class="about-grid">
-            <div class="about-text">
-                <p>
-                    目前<strong>就讀國立中央大學資工所</strong>碩士班。畢業於國立高雄大學資工系（GPA 3.98）
-                    專注於 <strong>Generative AI 應用</strong>、<strong>Edge AI 模型優化</strong>與
-                    <strong>Spring Boot 後端工程</strong>，能獨立完成從 AI 研究到系統落地的全端開發。
-                </p>
-                <p>
-                    研究方向聚焦於輕量化 Deepfake 偵測系統，透過 Post-Training Quantization 技術壓縮模型、
-                    結合多模態融合架構，實現在邊緣裝置上的隱私保護即時推論。
-                    榮獲 iFuzzy 2025 最佳發表獎，全國 AI 競賽電資組第一名等多項肯定。
-                </p>
-                <p>
-                    目前於<strong>國家高速網路與計算中心（NCHC）</strong>超級電腦維運部門實習，
-                    負責 Forerunner 叢集的儲存配額治理、效能測試與 LLM 工作流程文件化，
-                    將 AI 部署經驗延伸到 HPC 資源排程與環境資安的實務場景。
-                </p>
-                <p>
-                    Senior undergraduate at National University of Kaohsiung, GPA 3.97.
-                    Combines hands-on experience in Edge AI (TFLite / Quantization) deployment
-                    with HPC cluster operations and Java Spring Boot RESTful backend services.
-                </p>
-            </div>
-            <ul class="info-list">
-                <li><span class="label">📧 Email</span><a href="mailto:chen.guanlin.dev@gmail.com">chen.guanlin.dev@gmail.com</a></li>
-                <li><span class="label">📱 Phone</span><span>(+886) 903-622211</span></li>
-                <li><span class="label">🎓 B.S.</span><span>國立高雄大學 資工系 (2022–2026)</span></li>
-                <li><span class="label">🎓 M.S.</span><span>國立中央大學 資工所 (2026–~)</span></li>
-                <li><span class="label">💼 Intern</span><span>國家高速網路與計算中心 NCHC — 超級電腦系統維運</span></li>
-                <li><span class="label">💻 GitHub</span><a href="https://github.com/Guanisnt" target="_blank" rel="noopener">github.com/Guanisnt</a></li>
-                <li><span class="label">🔗 LinkedIn</span><a href="https://www.linkedin.com/in/冠霖-陳-80242334b/" target="_blank" rel="noopener">linkedin.com/in/冠霖-陳-80242334b</a></li>
-            </ul>
-        </div>
+<!-- ══════════ HERO ══════════ -->
+<header class="hero" id="top">
+  <div class="hero-inner">
+    <div class="avatar">
+      <!-- 大頭照放在 images/profile.JPG -->
+      <img src="images/profile.JPG" alt="陳冠霖"
+           onerror="this.remove();document.getElementById('av-fb').style.display='block'">
+      <span class="fallback" id="av-fb" style="display:none">CGL</span>
     </div>
-</section>
 
-<!-- ── EDUCATION ── -->
-<section id="education" style="background:#fff">
-    <div class="container">
-        <div class="section-header">
-            <div class="section-label">Academic Background</div>
-            <h2 class="section-title">Education</h2>
-        </div>
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-date">2026.07 – ~</div>
-                <div class="timeline-body">
-                    <h3>國立中央大學 National Central University</h3>
-                    <div class="degree">資訊工程學系 碩士 — M.S. in Computer Science &amp; Engineering</div>
-                    <p>預計研究方向：Object Detection</p>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-date">2022.09 – 2026.06</div>
-                <div class="timeline-body">
-                    <h3>國立高雄大學 National University of Kaohsiung</h3>
-                    <div class="degree">資訊工程學系 學士 — B.S. in Computer Science &amp; Engineering</div>
-                    <p>GPA 3.98 / 4.0 &nbsp;|&nbsp; 歷年系排 6 / 43 &nbsp;|&nbsp; 113-1 系排第 2、113-2 系排第 1 &nbsp;|&nbsp; 演算法、作業系統全系第一</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ── EXPERIENCE ── -->
-<section id="experience" style="background:var(--bg)">
-    <div class="container">
-        <div class="section-header">
-            <div class="section-label">Work Experience</div>
-            <h2 class="section-title">Experience</h2>
-        </div>
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-date">2026 Summer</div>
-                <div class="timeline-body">
-                    <h3>國家高速網路與計算中心 NCHC</h3>
-                    <div class="degree">超級電腦系統維運部門 實習生 — HPC Operations Intern</div>
-                    <ul>
-                        <li>部署 <strong>PyLauncher</strong> 並封裝為自訂 Lmod module，將參數掃描類工作負載的 SLURM job 提交數由 11 降為 1，降低排程器負擔</li>
-                        <li>除錯 GPFS 配額管理腳本，運用 <strong>mmsetquota</strong> 指令與 <strong>jq</strong> 進行資料解析，修復多行變數處理錯誤</li>
-                        <li>開發孤兒目錄（Orphaned Directory）偵測與分析工具，協助叢集儲存空間治理</li>
-                        <li>於 Forerunner 叢集執行 GPU 效能測試與壓力測試（Benchmarking / Stress Test）</li>
-                        <li>撰寫 Ollama on Slurm 部署指南與 SLURM Job Agent 工具，改善使用者的資源排程行為與環境資安</li>
-                        <li>實作 HPC 基礎架構：InfiniBand 網路、Fat-tree 拓撲 / Slurm 排程 </li>
-                    </ul>
-                    <div class="timeline-tags">
-                        <span class="tech-tag">SLURM</span>
-                        <span class="tech-tag">GPFS</span>
-                        <span class="tech-tag">Bash</span>
-                        <span class="tech-tag">Linux</span>
-                        <span class="tech-tag">InfiniBand</span>
-                        <span class="tech-tag">Ansible</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ── AWARDS ── -->
-<section id="awards" style="background:#fff">
-    <div class="container">
-        <div class="section-header">
-            <div class="section-label">Competitions &amp; Honors</div>
-            <h2 class="section-title">Awards</h2>
-        </div>
-        <div class="awards-grid">
-
-            <div class="award-card">
-                <div>
-                    <div class="award-badge">🏆 佳作 / Honorable Award</div>
-                    <h3>2026 智慧創新大賞 Best AI Awards — AI 應用類學生組</h3>
-                    <p>開發 PocketDefender 多模態輕量化 Deepfake 偵測系統，壓縮模型體積超過 72%，AUC 92.78%，部署於 Flutter App 與 Chrome Extension（主辦：經濟部產業技術司）。</p>
-                </div>
-                <span class="award-date">2026-04</span>
-            </div>
-
-            <div class="award-card">
-                <div>
-                    <div class="award-badge" style="background:#d1fae5;color:#065f46;">🥇 第一名</div>
-                    <h3>2025 全國 AI 專題創意競賽 — 資電領域組</h3>
-                    <p>開發具隱私保護之輕量化 Deepfake 偵測系統，採 MobileNetV3-Large + GRU 架構，導入 Cross-Dataset Training 與 PTQ 模型壓縮，榮獲全國資電領域組第一名。</p>
-                </div>
-                <span class="award-date">2025-11</span>
-            </div>
-
-            <div class="award-card">
-                <div>
-                    <div class="award-badge">🏅 佳作</div>
-                    <h3>第 30 屆大專院校資訊應用服務創新競賽（InnoServe）— 資安技術組</h3>
-                    <p>發表「具隱私保護之輕量化深度偽造檢測系統」，展現系統架構設計、競品分析與跨領域技術溝通能力。</p>
-                </div>
-                <span class="award-date">2025-11</span>
-            </div>
-
-            <div class="award-card">
-                <div>
-                    <div class="award-badge blue">📄 Best Presentation Award</div>
-                    <h3>Best Session Presentation Award — iFuzzy 2025 (International Conference on Fuzzy Theory and Its Applications)</h3>
-                    <p>Presented a lightweight Deepfake detection system using MobileNetV3 + GRU with Cross-Dataset Training and identity-disjoint splits for improved generalization.</p>
-                </div>
-                <span class="award-date">2025-11</span>
-            </div>
-
-            <div class="award-card">
-                <div>
-                    <div class="award-badge blue">🌐 ICPC</div>
-                    <h3>2026-ICPC Asia Taichung Regional Contest — Honorable Mention</h3>
-                    <p>國際大學生程式設計競賽亞洲區台中站，展現進階演算法（動態規劃、圖論）實作與高壓團隊協作能力。</p>
-                </div>
-                <span class="award-date">2025-11</span>
-            </div>
-
-            <div class="award-card">
-                <div>
-                    <div class="award-badge" style="background:#ede9fe;color:#5b21b6;">📊 CPE</div>
-                    <h3>CPE 大學程式能力檢定 — 全國前 2.8%</h3>
-                    <p>C++ 演算法與資料結構解題能力達全國前 2.8%。</p>
-                </div>
-                <span class="award-date">2025-03</span>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-<!-- ── PROJECTS ── -->
-<section id="projects" style="background:var(--bg)">
-    <div class="container">
-        <div class="section-header">
-            <div class="section-label">Portfolio</div>
-            <h2 class="section-title">Projects</h2>
-        </div>
-        <div class="projects-grid">
-
-            <!-- FEATURED -->
-            <div class="project-card featured">
-                <div class="project-img">
-                    <!-- 請將截圖放在 images/pocket-defender.jpg -->
-                    <img src="images/pocket-defender.jpg" alt="PocketDefender"
-                         onerror="this.parentElement.innerHTML='<span style=\'padding:1rem\'>📷 images/pocket-defender.jpg</span>'">
-                </div>
-                <div class="project-body">
-                    <h3>🛡 PocketDefender — 輕量化 Deepfake 偵測系統</h3>
-                    <ul>
-                        <li>提出 MobileNetV3-Large + GRU 輕量化時序架構，結合 Res2Net-AFF 音訊模型進行多模態特徵融合</li>
-                        <li>透過 TFLite Post-Training Quantization (PTQ)，壓縮模型超過 72%，Celeb-DF v2 上量化後仍維持 AUC 94.50%</li>
-                        <li>開發 Flutter Android 行動端即時偵測系統，支援全機離線運作，保護使用者隱私</li>
-                        <li>獲 2026 Best AI Awards 佳作、2025 全國 AI 競賽資電組第一名、InnoServe 資安技術組佳作</li>
-                    </ul>
-                    <div class="project-tags">
-                        <span class="tech-tag">Python</span>
-                        <span class="tech-tag">TensorFlow Lite</span>
-                        <span class="tech-tag">MobileNetV3</span>
-                        <span class="tech-tag">GRU</span>
-                        <span class="tech-tag">PTQ</span>
-                        <span class="tech-tag">Flutter</span>
-                        <span class="tech-tag">Edge AI</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-img">
-                    <!-- 請將截圖放在 images/pylauncher.jpg -->
-                    <img src="images/pylauncher_poster.png" alt="PyLauncher on Forerunner1"
-                         onerror="this.parentElement.innerHTML='<span style=\'padding:1rem\'>📷 images/pylauncher.jpg</span>'">
-                </div>
-                <div class="project-body">
-                    <h3>📦 PyLauncher on Forerunner1 — 大量參數掃描的排程開銷優化</h3>
-                    <a class="project-link" href="https://imminent-howler-787.notion.site/Pylauncher-3adce9036c0080929abae815c9c84138?source=copy_link" target="_blank" rel="noopener"> </a>
-                    <ul>
-                        <li>於 F1 叢集部署 <strong>PyLauncher</strong>，將參數掃描產生的大量獨立小型工作打包進單一 SLURM allocation，把 11 次 job 提交降為 1 次，減輕排程器負擔與佇列佔用</li>
-                        <li>直接閱讀原始碼，找出官方文件與 pip 版本（v4.0）間的四項未記載落差，包含<strong>不會拋出錯誤的靜默失敗</strong>：預設主機偵測邏輯僅比對 TACC 專屬主機名稱，在非 TACC 叢集上會退化為單節點執行</li>
-                        <li>改以 <strong>SLURMHostList</strong> 手動組裝 LauncherJob 繞過該問題，並以 <code>cores=&lt;實體核心數&gt;</code> 維持每個任務的節點獨佔性；雙節點實測 dispatch speedup 達 1.99×（理論上限 2.0×），量測結果與逐一提交基準的逐點誤差平均僅 3.1%</li>
-                        <li>將 conda 環境封裝為自訂 <strong>Lmod module</strong>，解決 sbatch 與 SSH 等非互動式 shell 中 <code>conda activate</code> 初始化失效的問題，並撰寫完整部署指南供其他叢集使用者參考</li>
-                    </ul>
-                    <div class="project-tags">
-                        <span class="tech-tag">PyLauncher</span>
-                        <span class="tech-tag">SLURM</span>
-                        <span class="tech-tag">Python</span>
-                        <span class="tech-tag">Lmod</span>
-                        <span class="tech-tag">Singularity</span>
-                        <span class="tech-tag">HPC</span>
-                        <span class="tech-tag">Technical Writing</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-img">
-                    <!-- 請將截圖放在 images/slurm-agent.jpg -->
-                    <img src="images/slurm_agent.png" alt="SLURM Job Agent"
-                         onerror="this.parentElement.innerHTML='<span style=\'padding:1rem\'>📷 images/slurm-agent.jpg</span>'">
-                </div>
-                <div class="project-body">
-                    <h3>🤖 SLURM Job Agent — HPC 排程輔助 CLI Agent</h3>
-                    <a class="project-link" href="https://github.com/Guanisnt/Slurm_Sbatch_Agent" target="_blank" rel="noopener">↗ github.com/Guanisnt/Slurm_Sbatch_Agent</a>
-                    <ul>
-                        <li>命令列 LLM Agent，將自然語言需求轉換為可直接複製使用的 SLURM sbatch 腳本</li>
-                        <li>採刻意收斂的 Co-pilot 設計：Agent 僅能產生腳本文字與讀取佇列狀態，程式中不存在寫檔、呼叫 sbatch 或送出工作的路徑</li>
-                        <li>Human-in-the-loop 機制，每個 tool call 執行前完整列出參數，未經同意不執行</li>
-                        <li>分區白名單、核心數上限、時間格式等叢集限制以 Python 獨立驗證，不依賴模型判斷；帳號憑證僅存於本機設定檔，不進入 Prompt</li>
-                    </ul>
-                    <div class="project-tags">
-                        <span class="tech-tag">Python</span>
-                        <span class="tech-tag">Gemini API</span>
-                        <span class="tech-tag">Function Calling</span>
-                        <span class="tech-tag">SLURM</span>
-                        <span class="tech-tag">LLM Agent</span>
-                        <span class="tech-tag">MIT License</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-img">
-                    <!-- 請將截圖放在 images/ollama-slurm.jpg -->
-                    <img src="images/ollama_slurm_job.png" alt="Ollama on Slurm"
-                         onerror="this.parentElement.innerHTML='<span style=\'padding:1rem\'>📷 images/ollama-slurm.jpg</span>'">
-                </div>
-                <div class="project-body">
-                    <h3>📘 Ollama on Slurm — HPC 叢集部署最佳實踐指南</h3>
-                    <ul>
-                        <li>針對使用者直接於 login node 執行 Ollama server 所造成的資安疑慮與資源競爭，撰寫進階部署指南，將服務隔離至配置的運算節點</li>
-                        <li><strong>Batch Mode</strong>：將 Ollama server 啟動與指定 prompt 一併嵌入 SLURM job script，於背景自動完成推論</li>
-                        <li><strong>Interactive API Mode</strong>：以 SLURM job 啟動常駐服務，使用者可透過 CLI API 呼叫即時與 LLM 互動對話</li>
-                        <li>文件化兩種流程，引導叢集使用者建立 HPC 資源排程最佳實踐並強化環境資安</li>
-                    </ul>
-                    <div class="project-tags">
-                        <span class="tech-tag">Ollama</span>
-                        <span class="tech-tag">SLURM</span>
-                        <span class="tech-tag">HPC</span>
-                        <span class="tech-tag">Bash</span>
-                        <span class="tech-tag">LLM Deployment</span>
-                        <span class="tech-tag">Technical Writing</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-img">
-                    <!-- 請將截圖放在 images/contest-system.png -->
-                    <img src="images/contest-system.jpg" alt="激發學生創意競賽管理系統"
-                         onerror="this.parentElement.innerHTML='<span style=\'padding:1rem\'>📷 images/contest-system.png</span>'">
-                </div>
-                <div class="project-body">
-                    <h3>🏫 激發學生創意競賽管理系統</h3>
-                    <p>設計並開發高雄大學創意競賽設計管理系統，涵蓋報名、評分與公告發布。
-                    擔任後端主開發者（Spring Boot + MySQL），撰寫 RESTful API；
-                    v2 版擔任主席主持需求會議，撰寫 SRS / SDD，前端改用 Flutter Web + PHP + MariaDB，並負責 Figma UI 設計。</p>
-                    <div class="project-tags">
-                        <span class="tech-tag">Spring Boot</span>
-                        <span class="tech-tag">MySQL</span>
-                        <span class="tech-tag">Flutter</span>
-                        <span class="tech-tag">PHP</span>
-                        <span class="tech-tag">RESTful API</span>
-                        <span class="tech-tag">Figma</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-img">
-                    <!-- 請將截圖放在 images/java-game.png -->
-                    <img src="images/java-game.jpg" alt="Java 多人連線遊戲"
-                         onerror="this.parentElement.innerHTML='<span style=\'padding:1rem\'>📷 images/java-game.png</span>'">
-                </div>
-                <div class="project-body">
-                    <h3>🎮 Java 多人連線遊戲 (GAMEBALL)</h3>
-                    <p>以 Java Swing 打造 GUI，採 Client–Server 架構與 Socket Programming 進行封包傳輸。
-                    負責以 UDP Message-Oriented 特性實現遊戲狀態同步，並協助 TCP 多人聊天室功能，Server 端以 multi-thread 處理多個 client 連線。</p>
-                    <div class="project-tags">
-                        <span class="tech-tag">Java</span>
-                        <span class="tech-tag">Java Swing</span>
-                        <span class="tech-tag">UDP / TCP</span>
-                        <span class="tech-tag">Multi-threading</span>
-                        <span class="tech-tag">Socket</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-img">
-                    <!-- 請將截圖放在 images/ai-news.png -->
-                    <img src="images/ai-news.jpg" alt="AIversity_NEWS"
-                         onerror="this.parentElement.innerHTML='<span style=\'padding:1rem\'>📷 images/ai-news.png</span>'">
-                </div>
-                <div class="project-body">
-                    <h3>📰 AIversity_NEWS</h3>
-                    <p>在 Linux 環境中透過 Generative AI 打造具前瞻性的新聞整合平台，打破地域與語言限制。
-                    串接 Google Generative AI API（Gemma 模型），結合 Prompt Engineering 進行新聞時序分析，
-                    並將分析結果存入 Supabase（PostgreSQL）遠端資料庫。</p>
-                    <div class="project-tags">
-                        <span class="tech-tag">Python</span>
-                        <span class="tech-tag">Gemma</span>
-                        <span class="tech-tag">Google AI API</span>
-                        <span class="tech-tag">Supabase</span>
-                        <span class="tech-tag">PostgreSQL</span>
-                        <span class="tech-tag">Prompt Engineering</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-<!-- ── PUBLICATIONS ── -->
-<section id="publications" style="background:#fff">
-    <div class="container">
-        <div class="section-header">
-            <div class="section-label">Research</div>
-            <h2 class="section-title">Publications</h2>
-        </div>
-
-        <div class="pub-card">
-            <h3>Lightweight Deepfake Detection with Privacy-Preserving Edge Deployment</h3>
-            <div class="venue">Best Session Presentation Award — 2025 International Conference on Fuzzy Theory and Its Applications (iFuzzy 2025)</div>
-            <p>
-                Built a lightweight Deepfake detector using MobileNetV3 and GRU, optimizing model efficiency by cropping specific facial features instead of scanning the full face.
-                Applied Cross-Dataset Training with identity-disjoint splits to prevent identity leakage and improve generalization on unseen data.
-                Post-Training Quantization (TFLite) deployed on Android for fully offline, privacy-preserving inference.
-            </p>
-        </div>
-
-    </div>
-</section>
-
-<!-- ── MEDIA COVERAGE ── -->
-<section id="media" style="background:var(--bg)">
-    <div class="container">
-        <div class="section-header">
-            <div class="section-label">In the News</div>
-            <h2 class="section-title">相關報導 · Media Coverage</h2>
-        </div>
-        <div class="media-grid">
-
-            <a class="media-card" href="https://news.pts.org.tw/article/790943" target="_blank" rel="noopener">
-                <div class="media-meta">
-                    <span class="media-outlet video">📺 公視新聞網 PNN</span>
-                    <span class="media-date">2026-01-16</span>
-                </div>
-                <h3>高雄大學開發偵測系統 破解換臉、變音等深偽影片</h3>
-                <p>電視新聞專訪，於鏡頭前示範系統即時判讀網路上的換臉與變聲影片，並說明模型如何從五官周圍的偽造特徵進行判斷。記者：王柔婷、陳顯坤。</p>
-                <span class="media-readmore">↗ 觀看報導與採訪影片</span>
-            </a>
-
-            <a class="media-card" href="https://news.ltn.com.tw/news/life/breakingnews/5303394" target="_blank" rel="noopener">
-                <div class="media-meta">
-                    <span class="media-outlet">📰 自由時報</span>
-                    <span class="media-date">2026-01-08</span>
-                </div>
-                <h3>破解換臉、變聲影片 高雄大學開發手機 Deepfake 偵測系統</h3>
-                <p>以團隊組長身分受訪，說明輕量化模型與影音多模態一致性檢測的設計思路，以及量化後於行動裝置端完成推論、無須上傳雲端的隱私保護優勢。記者：蔡清華。</p>
-                <span class="media-readmore">↗ 閱讀報導全文</span>
-            </a>
-
-        </div>
-    </div>
-</section>
-
-<!-- ── SKILLS ── -->
-<section id="skills" style="background:var(--bg)">
-    <div class="container">
-        <div class="section-header">
-            <div class="section-label">Technical Expertise</div>
-            <h2 class="section-title">Skills</h2>
-        </div>
-        <div class="skills-grid">
-            <div class="skill-group">
-                <h3>Programming Languages</h3>
-                <div class="skill-chips">
-                    <span class="skill-chip pro">C / C++</span>
-                    <span class="skill-chip pro">Java</span>
-                    <span class="skill-chip mid">Python</span>
-                    <span class="skill-chip mid">Bash Script</span>
-                </div>
-            </div>
-            <div class="skill-group">
-                <h3>AI / ML</h3>
-                <div class="skill-chips">
-                    <span class="skill-chip pro">TensorFlow / TFLite</span>
-                    <span class="skill-chip mid">PyTorch</span>
-                    <span class="skill-chip mid">Model Quantization (PTQ)</span>
-                    <span class="skill-chip mid">Edge AI Deployment</span>
-                    <span class="skill-chip mid">Generative AI</span>
-                    <span class="skill-chip mid">LLM Agent / Function Calling</span>
-                </div>
-            </div>
-            <div class="skill-group">
-                <h3>HPC &amp; Systems</h3>
-                <div class="skill-chips">
-                    <span class="skill-chip mid">Lmod / Environment Modules</span>
-                    <span class="skill-chip mid">PyLauncher</span>
-                    <span class="skill-chip mid">SLURM</span>
-                    <span class="skill-chip mid">GPFS</span>
-                    <span class="skill-chip mid">InfiniBand</span>
-                    <span class="skill-chip mid">Ansible / pdsh</span>
-                    <span class="skill-chip mid">Ollama Deployment</span>
-                    <span class="skill-chip beg">LDAP</span>
-                </div>
-            </div>
-            <div class="skill-group">
-                <h3>Backend</h3>
-                <div class="skill-chips">
-                    <span class="skill-chip mid">Spring Boot</span>
-                    <span class="skill-chip mid">RESTful API</span>
-                    <span class="skill-chip mid">MySQL / MariaDB</span>
-                    <span class="skill-chip mid">PHP</span>
-                    <span class="skill-chip mid">Supabase</span>
-                </div>
-            </div>
-            <div class="skill-group">
-                <h3>Frontend &amp; Mobile</h3>
-                <div class="skill-chips">
-                    <span class="skill-chip mid">Flutter</span>
-                    <span class="skill-chip beg">HTML / CSS</span>
-                    <span class="skill-chip beg">JavaScript</span>
-                </div>
-            </div>
-            <div class="skill-group">
-                <h3>Tools &amp; DevOps</h3>
-                <div class="skill-chips">
-                    <span class="skill-chip mid">Git / GitHub</span>
-                    <span class="skill-chip mid">Linux</span>
-                    <span class="skill-chip mid">Docker / Singularity</span>
-                    <span class="skill-chip mid">Postman</span>
-                    <span class="skill-chip mid">Figma</span>
-                </div>
-            </div>
-            <div class="skill-group">
-                <h3>Languages</h3>
-                <div class="skill-chips">
-                    <span class="skill-chip pro">Chinese (Native)</span>
-                    <span class="skill-chip mid">English (TOEIC 760)</span>
-                </div>
-            </div>
-        </div>
-        <div class="skill-legend">
-            <span><span class="dot" style="background:var(--primary)"></span> Proficient 精通</span>
-            <span><span class="dot" style="background:#93c5fd"></span> Intermediate 中階</span>
-            <span><span class="dot" style="background:#e2e8f0"></span> Beginner 初學</span>
-        </div>
-    </div>
-</section>
-
-
-<!-- ── CONTACT ── -->
-<section id="contact" style="background:#fff">
-    <div class="container">
-        <div class="section-header">
-            <div class="section-label">Get in Touch</div>
-            <h2 class="section-title">Contact</h2>
-        </div>
-        <div class="contact-grid">
-            <a href="mailto:chen.guanlin.dev@gmail.com" class="contact-item">
-                <span class="contact-icon">✉️</span>
-                <div>
-                    <h3>Email</h3>
-                    <p>chen.guanlin.dev@gmail.com</p>
-                </div>
-            </a>
-            <a href="https://github.com/Guanisnt" target="_blank" rel="noopener" class="contact-item">
-                <span class="contact-icon">💻</span>
-                <div>
-                    <h3>GitHub</h3>
-                    <p>github.com/Guanisnt</p>
-                </div>
-            </a>
-            <a href="https://www.linkedin.com/in/冠霖-陳-80242334b/" target="_blank" rel="noopener" class="contact-item">
-                <span class="contact-icon">🔗</span>
-                <div>
-                    <h3>LinkedIn</h3>
-                    <p>linkedin.com/in/冠霖-陳-80242334b</p>
-                </div>
-            </a>
-            <div class="contact-item" style="cursor:default">
-                <span class="contact-icon">📱</span>
-                <div>
-                    <h3>Phone</h3>
-                    <p>(+886) 903-622211</p>
-                </div>
-            </div>
-            <div class="contact-item" style="cursor:default">
-                <span class="contact-icon">📍</span>
-                <div>
-                    <h3>Location</h3>
-                    <p>Taiwan (Remote / On-site)</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ── FOOTER ── -->
-<footer>
-    <p>© 2026 陳冠霖 Chen Guan-Lin &nbsp;·&nbsp;
-       <a href="mailto:chen.guanlin.dev@gmail.com">chen.guanlin.dev@gmail.com</a>
+    <div class="eyebrow">Edge AI · HPC Systems · Applied Research</div>
+    <h1>陳冠霖<span class="en">Chen Guan-Lin</span></h1>
+    <p class="hero-role">
+      國立中央大學資工所碩士生 &nbsp;·&nbsp; 國家高速網路與計算中心 HPC 實習生。<br>
+      把研究做到<strong>裝置上跑得動</strong>：模型壓縮、邊緣部署，以及支撐它們的系統。
     </p>
+
+    <div class="tags">
+      <span class="tag">Model Quantization</span>
+      <span class="tag">On-device Inference</span>
+      <span class="tag">Deepfake Detection</span>
+      <span class="tag">HPC / SLURM</span>
+      <span class="tag">NPU &amp; FPGA</span>
+    </div>
+
+    <div class="cta">
+      <a href="mailto:chen.guanlin.dev@gmail.com" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+        聯絡我
+      </a>
+      <a href="https://github.com/Guanisnt" target="_blank" rel="noopener" class="btn btn-ghost">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 00-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.2 1.9 1.2 1.1 1.9 2.9 1.3 3.6 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0012 .5z"/></svg>
+        GitHub
+      </a>
+      <a href="https://www.linkedin.com/in/冠霖-陳-80242334b/" target="_blank" rel="noopener" class="btn btn-ghost">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3-.02-3-1.83-3-1.83 0-2.11 1.43-2.11 2.9V21h-4z"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://leetcode.com/u/allen6010101/" target="_blank" rel="noopener" class="btn btn-ghost">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-5 6 5 6M16 6l5 6-5 6M13.5 4l-3 16"/></svg>
+        LeetCode
+      </a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>&gt;72%</b><span>模型體積壓縮</span></div>
+      <div class="stat"><b>1.99×</b><span>Dispatch Speedup</span></div>
+      <div class="stat"><b>11 → 1</b><span>SLURM Job 提交數</span></div>
+      <div class="stat"><b>3.98</b><span>Undergrad GPA</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════ ABOUT ══════════ -->
+<section id="about">
+  <div class="wrap">
+    <div class="s-head reveal">
+      <div class="s-kicker">Introduction</div>
+      <h2 class="s-title">About</h2>
+    </div>
+
+    <div class="about">
+      <div class="reveal">
+        <p>
+          畢業於<strong>國立高雄大學資訊工程學系</strong>（GPA 3.98 / 4.0），
+          目前就讀<strong>國立中央大學資工所</strong>碩士班。
+          研究與工程興趣集中在 <strong>Generative AI 應用</strong>、
+          <strong>Edge AI 模型優化</strong>與 <strong>Spring Boot 後端工程</strong>，
+          能獨立完成從模型訓練、量化壓縮到系統落地的全流程開發。
+        </p>
+        <p>
+          研究主軸是輕量化的 Deepfake 偵測：以影像與音訊多模態融合架構搭配
+          Post-Training Quantization，讓推論可以完全在使用者的裝置上完成，
+          不必把影音上傳雲端。成果獲得 iFuzzy 2025 最佳發表獎、
+          全國 AI 專題創意競賽資電領域組第一名，並已提出中華民國專利申請。
+        </p>
+        <p>
+          除了模型本身，也把手伸到它跑的地方：從 <strong>NPU 與 FPGA</strong> 的硬體端加速，
+          到<strong>國家高速網路與計算中心（NCHC）</strong>超級電腦維運部門的實習，
+          負責 Forerunner 叢集的儲存配額治理、GPU 效能測試與 LLM 工作流程文件化。
+        </p>
+        <p class="en-block">
+          Recently completed a B.S. in Computer Science and Engineering at National University
+          of Kaohsiung (GPA 3.98 / 4.0) and is now an M.S. student in Computer Science and
+          Engineering at National Central University. Combines hands-on Edge AI deployment
+          experience — TFLite quantization, NPU and FPGA acceleration — with HPC cluster
+          operations and Java Spring Boot RESTful backend development.
+        </p>
+      </div>
+
+      <ul class="facts reveal">
+        <li><span class="k">Email</span><span class="v"><a href="mailto:chen.guanlin.dev@gmail.com">chen.guanlin.dev@gmail.com</a></span></li>
+        <li><span class="k">M.S.</span><span class="v">國立中央大學 資工所（2026 – ）</span></li>
+        <li><span class="k">B.S.</span><span class="v">國立高雄大學 資工系（2022 – 2026）</span></li>
+        <li><span class="k">Intern</span><span class="v">NCHC 國家高速網路與計算中心 — 超級電腦系統維運</span></li>
+        <li><span class="k">GitHub</span><span class="v"><a href="https://github.com/Guanisnt" target="_blank" rel="noopener">github.com/Guanisnt</a></span></li>
+        <li><span class="k">LinkedIn</span><span class="v"><a href="https://www.linkedin.com/in/冠霖-陳-80242334b/" target="_blank" rel="noopener">linkedin.com/in/冠霖-陳</a></span></li>
+        <li><span class="k">LeetCode</span><span class="v"><a href="https://leetcode.com/u/allen6010101/" target="_blank" rel="noopener">leetcode.com/u/allen6010101</a></span></li>
+        <li><span class="k">Location</span><span class="v">Taiwan（Remote / On-site）</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ EDUCATION ══════════ -->
+<section id="education">
+  <div class="wrap">
+    <div class="s-head reveal">
+      <div class="s-kicker">Academic Background</div>
+      <h2 class="s-title">Education</h2>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-date">2026.07 — 現在</div>
+        <div class="tl-body card">
+          <h3>國立中央大學 National Central University</h3>
+          <div class="sub">資訊工程學系 碩士班 · M.S. in Computer Science &amp; Engineering</div>
+          <p>研究方向：Object Detection（紅外線小目標偵測與多目標追蹤）</p>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-date">2022.09 — 2026.06</div>
+        <div class="tl-body card">
+          <h3>國立高雄大學 National University of Kaohsiung</h3>
+          <div class="sub">資訊工程學系 學士 · B.S. in Computer Science &amp; Engineering</div>
+          <div class="meta-line">
+            <span>GPA 3.98 / 4.0</span>
+            <span>歷年系排 6 / 43</span>
+            <span>113-1 系排 2 · 113-2 系排 1</span>
+            <span>演算法、作業系統 全系第一</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ EXPERIENCE ══════════ -->
+<section id="experience">
+  <div class="wrap">
+    <div class="s-head reveal">
+      <div class="s-kicker">Work Experience</div>
+      <h2 class="s-title">Experience</h2>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-date">2026 Summer</div>
+        <div class="tl-body card">
+          <h3>國家高速網路與計算中心 NCHC</h3>
+          <div class="sub">超級電腦系統維運部門 實習生 · HPC Operations Intern</div>
+          <ul>
+            <li>部署 <strong>PyLauncher</strong> 並封裝為自訂 Lmod module，將參數掃描類工作負載的 SLURM job 提交數由 11 降為 1，降低排程器負擔</li>
+            <li>除錯 GPFS 配額管理腳本，運用 <strong>mmsetquota</strong> 指令與 <strong>jq</strong> 進行資料解析，修復多行變數處理錯誤</li>
+            <li>開發孤兒目錄（Orphaned Directory）偵測與分析工具，協助叢集儲存空間治理</li>
+            <li>於 Forerunner 叢集執行 GPU 效能測試與壓力測試（Benchmarking / Stress Test）</li>
+            <li>撰寫 Ollama on Slurm 部署指南與 SLURM Job Agent 工具，改善使用者的資源排程行為與環境資安</li>
+            <li>實作 HPC 基礎架構：InfiniBand 網路、Fat-tree 拓撲、Slurm 排程、LDAP / GPFS 使用者管理</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">SLURM</span><span class="chip">GPFS</span><span class="chip">Bash</span>
+            <span class="chip">Linux</span><span class="chip">InfiniBand</span><span class="chip">Ansible</span>
+            <span class="chip">Singularity</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ AWARDS ══════════ -->
+<section id="awards">
+  <div class="wrap">
+    <div class="s-head reveal">
+      <div class="s-kicker">Competitions &amp; Honors</div>
+      <h2 class="s-title">Awards</h2>
+    </div>
+
+    <div class="awards">
+
+      <div class="award card reveal">
+        <div>
+          <span class="badge gold">佳作 · Honorable Award</span>
+          <h3>2026 智慧創新大賞 Best AI Awards — AI 應用類學生組</h3>
+        </div>
+        <span class="when">2026-04</span>
+        <p>開發 PocketDefender 多模態輕量化 Deepfake 偵測系統，模型體積壓縮超過 72%，部署於 Flutter App 與 Chrome Extension。主辦：經濟部產業技術司。</p>
+      </div>
+
+      <div class="award card reveal">
+        <div>
+          <span class="badge green">第一名 · 1st Place</span>
+          <h3>2025 全國 AI 專題創意競賽 — 資電領域組</h3>
+        </div>
+        <span class="when">2025-11</span>
+        <p>開發具隱私保護之輕量化 Deepfake 偵測系統，採 MobileNetV3-Large + GRU 架構，導入 Cross-Dataset Training 與 PTQ 模型壓縮，榮獲全國資電領域組第一名。</p>
+      </div>
+
+      <div class="award card reveal">
+        <div>
+          <span class="badge gold">佳作 · Honorable Mention</span>
+          <h3>第 30 屆大專院校資訊應用服務創新競賽（InnoServe）— 資安技術組</h3>
+        </div>
+        <span class="when">2025-11</span>
+        <p>發表「具隱私保護之輕量化深度偽造檢測系統」，展現系統架構設計、競品分析與跨領域技術溝通能力。</p>
+      </div>
+
+      <div class="award card reveal">
+        <div>
+          <span class="badge">Best Presentation Award</span>
+          <h3>Best Session Presentation Award — iFuzzy 2025 International Conference on Fuzzy Theory and Its Applications</h3>
+        </div>
+        <span class="when">2025-11</span>
+        <p>發表輕量化 Deepfake 偵測系統，以 MobileNetV3 + GRU 搭配 Cross-Dataset Training 與 identity-disjoint 資料切分，提升對未見資料的泛化能力。</p>
+      </div>
+
+      <div class="award card reveal">
+        <div>
+          <span class="badge violet">ICPC</span>
+          <h3>2026 ICPC Asia Taichung Regional Contest — Honorable Mention</h3>
+        </div>
+        <span class="when">2025-11</span>
+        <p>國際大學生程式設計競賽亞洲區台中站，展現進階演算法（動態規劃、圖論）實作與高壓團隊協作能力。</p>
+      </div>
+
+      <div class="award card reveal">
+        <div>
+          <span class="badge violet">CPE</span>
+          <h3>CPE 大學程式能力檢定 — 全國前 2.8%</h3>
+        </div>
+        <span class="when">2025-03</span>
+        <p>C++ 演算法與資料結構解題能力達全國前 2.8%。</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PROJECTS ══════════ -->
+<section id="projects">
+  <div class="wrap">
+    <div class="s-head reveal">
+      <div class="s-kicker">Portfolio</div>
+      <h2 class="s-title">Projects</h2>
+    </div>
+
+    <div class="projects">
+
+      <!-- ─ FEATURED ─ -->
+      <div class="proj featured card reveal">
+        <div class="shot">
+          <!-- images/pocket-defender.jpg -->
+          <img src="images/pocket-defender.jpg" alt="PocketDefender"
+               onerror="this.parentElement.innerHTML='<span class=&quot;ph&quot;>images/pocket-defender.jpg</span>'">
+        </div>
+        <div class="proj-body">
+          <h3>PocketDefender — 輕量化 Deepfake 偵測系統</h3>
+          <ul>
+            <li>提出 MobileNetV3-Large + GRU 輕量化時序架構，結合 Res2Net-AFF 音訊模型進行影音多模態特徵融合</li>
+            <li>透過 TFLite <strong>Post-Training Quantization</strong>，模型體積壓縮超過 72%，量化後仍維持穩定的辨識表現</li>
+            <li>開發 Flutter Android 行動端即時偵測系統，支援全機離線運作，影音不需上傳雲端</li>
+            <li>獲 2026 Best AI Awards 佳作、2025 全國 AI 競賽資電組第一名、InnoServe 資安技術組佳作，並提出中華民國專利申請</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">Python</span><span class="chip">TensorFlow Lite</span><span class="chip">MobileNetV3</span>
+            <span class="chip">GRU</span><span class="chip">Res2Net</span><span class="chip">PTQ</span>
+            <span class="chip">Flutter</span><span class="chip">Edge AI</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─ CHROME EXTENSION ─ -->
+      <div class="proj card reveal">
+        <div class="shot">
+          <!-- images/chrome-extension.jpg -->
+          <img src="images/pocketdefender_chrome_extension.png" alt="Deepfake Detection Chrome Extension"
+               onerror="this.parentElement.innerHTML='<span class=&quot;ph&quot;>images/chrome-extension.jpg</span>'">
+        </div>
+        <div class="proj-body">
+          <h3>Deepfake 偵測 Chrome Extension（TensorFlow.js）</h3>
+          <ul>
+            <li>將 PocketDefender 的偵測模型延伸到瀏覽器端，讓使用者不必安裝 App 也能直接檢查網頁上的影片</li>
+            <li>以 <strong>TensorFlow.js</strong> 完成模型轉換與瀏覽器內推論，推論同樣在本機端完成，不上傳任何影音</li>
+            <li>處理轉換過程的兩個關鍵問題：<code>pixel-interleaved</code> 張量排列與原本錯誤的 sigmoid 輸出處理，修正後推論結果才與 Python 端一致</li>
+            <li>與 Flutter App 共用同一套模型與前處理流程，形成行動端 + 瀏覽器端的雙部署形態</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">TensorFlow.js</span><span class="chip">JavaScript</span><span class="chip">Chrome Extension</span>
+            <span class="chip">Model Conversion</span><span class="chip">On-device Inference</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─ PYLAUNCHER ─ -->
+      <div class="proj card reveal">
+        <div class="shot">
+          <!-- images/pylauncher_poster.png -->
+          <img src="images/pylauncher_poster.png" alt="PyLauncher on Forerunner1"
+               onerror="this.parentElement.innerHTML='<span class=&quot;ph&quot;>images/pylauncher_poster.png</span>'">
+        </div>
+        <div class="proj-body">
+          <h3>PyLauncher on Forerunner1 — 大量參數掃描的排程開銷優化</h3>
+          <a class="proj-link" href="https://imminent-howler-787.notion.site/Pylauncher-3adce9036c0080929abae815c9c84138?source=copy_link" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6M10 14 21 3"/></svg>
+            技術文件（Notion）
+          </a>
+          <ul>
+            <li>於 F1 叢集部署 <strong>PyLauncher</strong>，將參數掃描產生的大量獨立小型工作打包進單一 SLURM allocation，把 11 次 job 提交降為 1 次</li>
+            <li>直接閱讀原始碼，找出官方文件與 pip 版本（v4.0）間的四項未記載落差，包含<strong>不會拋出錯誤的靜默失敗</strong>：預設主機偵測邏輯僅比對 TACC 專屬主機名稱，在非 TACC 叢集上會退化為單節點執行</li>
+            <li>改以 <strong>SLURMHostList</strong> 手動組裝 LauncherJob 繞過該問題，並以 <code>cores=&lt;實體核心數&gt;</code> 維持每個任務的節點獨佔性；雙節點實測 dispatch speedup 達 1.99×（理論上限 2.0×），與逐一提交基準的逐點誤差平均僅 3.1%</li>
+            <li>將 conda 環境封裝為自訂 <strong>Lmod module</strong>，解決非互動式 shell 中 <code>conda activate</code> 初始化失效的問題，並撰寫完整部署指南</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">PyLauncher</span><span class="chip">SLURM</span><span class="chip">Python</span>
+            <span class="chip">Lmod</span><span class="chip">Singularity</span><span class="chip">HPC</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─ SLURM AGENT ─ -->
+      <div class="proj card reveal">
+        <div class="shot">
+          <!-- images/slurm_agent.png -->
+          <img src="images/slurm_agent.png" alt="SLURM Job Agent"
+               onerror="this.parentElement.innerHTML='<span class=&quot;ph&quot;>images/slurm_agent.png</span>'">
+        </div>
+        <div class="proj-body">
+          <h3>SLURM Job Agent — HPC 排程輔助 CLI Agent</h3>
+          <a class="proj-link" href="https://github.com/Guanisnt/Slurm_Sbatch_Agent" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6M10 14 21 3"/></svg>
+            github.com/Guanisnt/Slurm_Sbatch_Agent
+          </a>
+          <ul>
+            <li>命令列 LLM Agent，將自然語言需求轉換為可直接複製使用的 SLURM sbatch 腳本</li>
+            <li>採刻意收斂的 Co-pilot 設計：Agent 僅能產生腳本文字與讀取佇列狀態，程式中不存在寫檔、呼叫 sbatch 或送出工作的路徑</li>
+            <li>Human-in-the-loop 機制，每個 tool call 執行前完整列出參數，未經同意不執行</li>
+            <li>分區白名單、核心數上限、時間格式等叢集限制以 Python 獨立驗證，不依賴模型判斷；帳號憑證僅存於本機設定檔，不進入 Prompt</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">Python</span><span class="chip">Gemini API</span><span class="chip">Function Calling</span>
+            <span class="chip">SLURM</span><span class="chip">LLM Agent</span><span class="chip">MIT License</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─ OLLAMA ─ -->
+      <div class="proj card reveal">
+        <div class="shot">
+          <!-- images/ollama_slurm_job.png -->
+          <img src="images/ollama_slurm_job.png" alt="Ollama on Slurm"
+               onerror="this.parentElement.innerHTML='<span class=&quot;ph&quot;>images/ollama_slurm_job.png</span>'">
+        </div>
+        <div class="proj-body">
+          <h3>Ollama on Slurm — HPC 叢集部署最佳實踐指南</h3>
+          <ul>
+            <li>針對使用者直接於 login node 執行 Ollama server 造成的資安疑慮與資源競爭，撰寫進階部署指南，將服務隔離至配置的運算節點</li>
+            <li><strong>Batch Mode</strong>：將 Ollama server 啟動與指定 prompt 一併嵌入 SLURM job script，於背景自動完成推論</li>
+            <li><strong>Interactive API Mode</strong>：以 SLURM job 啟動常駐服務，使用者透過 CLI API 呼叫即時與 LLM 互動</li>
+            <li>文件化兩種流程，引導叢集使用者建立 HPC 資源排程最佳實踐並強化環境資安</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">Ollama</span><span class="chip">SLURM</span><span class="chip">HPC</span>
+            <span class="chip">Bash</span><span class="chip">LLM Deployment</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─ AMB82-MINI IOT ─ -->
+      <div class="proj card reveal">
+        <div class="shot">
+          <!-- images/amb82-plant.jpg -->
+          <img src="images/IoT_plant_health_project.png" alt="AMB82-Mini 植物葉片健康分類 IoT 系統"
+               onerror="this.parentElement.innerHTML='<span class=&quot;ph&quot;>images/amb82-plant.jpg</span>'">
+        </div>
+        <div class="proj-body">
+          <h3>植物葉片健康分類 IoT 系統 — AMB82-Mini (HUB8735) NPU 部署</h3>
+          <ul>
+            <li>在 <strong>AMB82-Mini（HUB8735）</strong>邊緣開發板上建置端到端的植物病害辨識系統，影像擷取、推論與回報全部在板端完成</li>
+            <li>以 <strong>PlantVillage</strong> 資料集自行訓練客製化 CNN 分類模型，針對開發板的運算與記憶體限制調整網路規模</li>
+            <li>透過 Realtek <strong>Acuity Toolkit</strong> 完成 Post-Training Quantization 與 <strong>NPU</strong> 部署，將模型轉換為板端可執行的格式</li>
+            <li>整合 <strong>RTSP</strong> 影像串流、<strong>MQTT</strong>（HiveMQ Cloud）訊息傳遞與 <strong>Firebase</strong> 資料回寫，串成完整的 IoT 資料鏈路</li>
+            <li>排除模型輸出恆為定值的問題：先定位到量化校準（calibration）資料的取樣方式，後續再追到 sketch 整合層的呼叫錯誤，逐層驗證後恢復正常輸出</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">AMB82-Mini</span><span class="chip">Realtek Acuity</span><span class="chip">NPU</span>
+            <span class="chip">PTQ</span><span class="chip">CNN</span><span class="chip">RTSP</span>
+            <span class="chip">MQTT / HiveMQ</span><span class="chip">Firebase</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─ FPGA / HLS ─ -->
+      <div class="proj card reveal">
+        <div class="shot">
+          <!-- images/fpga-conv-accel.jpg -->
+          <img src="images/FPGA_emotion_reg_project.png" alt="FPGA HLS 卷積運算加速器"
+               onerror="this.parentElement.innerHTML='<span class=&quot;ph&quot;>images/fpga-conv-accel.jpg</span>'">
+        </div>
+        <div class="proj-body">
+          <h3>conv_accel — FPGA / HLS 卷積運算加速器</h3>
+          <ul>
+            <li>以 <strong>High-Level Synthesis（HLS）</strong>設計卷積運算加速器 <code>conv_accel</code>，將 CNN 中最吃運算量的卷積層下放到硬體執行</li>
+            <li>部署於 <strong>PYNQ</strong> 開發板，透過 Python / Jupyter 介面驅動硬體加速核心，與純軟體實作對照驗證運算結果與效能</li>
+            <li>實作過程涵蓋資料流設計、迴圈展開與管線化等 HLS 最佳化手法，以及硬體資源使用量與吞吐之間的取捨</li>
+            <li>與模型量化的經驗互補，形成「演算法端壓縮 → NPU 部署 → RTL 層加速」的完整 Edge AI 視角</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">FPGA</span><span class="chip">Vitis HLS</span><span class="chip">PYNQ</span>
+            <span class="chip">C / C++</span><span class="chip">Hardware Acceleration</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─ CONTEST SYSTEM ─ -->
+      <div class="proj card reveal">
+        <div class="shot">
+          <!-- images/contest-system.jpg -->
+          <img src="images/contest-system.jpg" alt="激發學生創意競賽管理系統"
+               onerror="this.parentElement.innerHTML='<span class=&quot;ph&quot;>images/contest-system.jpg</span>'">
+        </div>
+        <div class="proj-body">
+          <h3>激發學生創意競賽管理系統</h3>
+          <p>設計並開發高雄大學創意競賽管理系統，涵蓋報名、評分與公告發布。擔任後端主開發者（Spring Boot + MySQL），撰寫 RESTful API；v2 版擔任主席主持需求會議、撰寫 SRS / SDD，前端改用 Flutter Web + PHP + MariaDB，並負責 Figma UI 設計。</p>
+          <div class="chips">
+            <span class="chip">Spring Boot</span><span class="chip">MySQL</span><span class="chip">Flutter</span>
+            <span class="chip">PHP</span><span class="chip">RESTful API</span><span class="chip">Figma</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─ JAVA GAME ─ -->
+      <div class="proj card reveal">
+        <div class="shot">
+          <!-- images/java-game.jpg -->
+          <img src="images/java-game.jpg" alt="Java 多人連線遊戲"
+               onerror="this.parentElement.innerHTML='<span class=&quot;ph&quot;>images/java-game.jpg</span>'">
+        </div>
+        <div class="proj-body">
+          <h3>GAMEBALL — Java 多人連線遊戲</h3>
+          <p>以 Java Swing 打造 GUI，採 Client–Server 架構與 Socket Programming 進行封包傳輸。負責以 UDP message-oriented 特性實現遊戲狀態同步，並協助 TCP 多人聊天室功能，Server 端以 multi-thread 處理多個 client 連線。</p>
+          <div class="chips">
+            <span class="chip">Java</span><span class="chip">Java Swing</span><span class="chip">UDP / TCP</span>
+            <span class="chip">Multi-threading</span><span class="chip">Socket</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─ AIVERSITY NEWS ─ -->
+      <div class="proj card reveal">
+        <div class="shot">
+          <!-- images/ai-news.jpg -->
+          <img src="images/ai-news.jpg" alt="AIversity_NEWS"
+               onerror="this.parentElement.innerHTML='<span class=&quot;ph&quot;>images/ai-news.jpg</span>'">
+        </div>
+        <div class="proj-body">
+          <h3>AIversity_NEWS</h3>
+          <p>在 Linux 環境中以 Generative AI 打造新聞整合平台，打破地域與語言限制。串接 Google Generative AI API（Gemma 模型），結合 Prompt Engineering 進行新聞時序分析，並將結果存入 Supabase（PostgreSQL）遠端資料庫。</p>
+          <div class="chips">
+            <span class="chip">Python</span><span class="chip">Gemma</span><span class="chip">Google AI API</span>
+            <span class="chip">Supabase</span><span class="chip">PostgreSQL</span><span class="chip">Prompt Engineering</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ MEDIA COVERAGE ══════════ -->
+<section id="media">
+  <div class="wrap">
+    <div class="s-head reveal">
+      <div class="s-kicker">In the News</div>
+      <h2 class="s-title">相關報導 · Media Coverage</h2>
+    </div>
+
+    <div class="media">
+
+      <a class="media-card card reveal" href="https://news.pts.org.tw/article/790943" target="_blank" rel="noopener">
+        <div class="media-top">
+          <span class="badge violet">公視新聞網 PNN</span>
+          <span class="when" style="font-family:var(--f-mono);font-size:.72rem;color:var(--muted)">2026-01-16</span>
+        </div>
+        <h3>高雄大學開發偵測系統 破解換臉、變音等深偽影片</h3>
+        <p>電視新聞專訪，於鏡頭前示範系統即時判讀網路上的換臉與變聲影片，並說明模型如何從五官周圍的偽造特徵進行判斷。記者：王柔婷、陳顯坤。</p>
+        <span class="media-go">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6M10 14 21 3"/></svg>
+          觀看報導與採訪影片
+        </span>
+      </a>
+
+      <a class="media-card card reveal" href="https://news.ltn.com.tw/news/life/breakingnews/5303394" target="_blank" rel="noopener">
+        <div class="media-top">
+          <span class="badge red">自由時報</span>
+          <span class="when" style="font-family:var(--f-mono);font-size:.72rem;color:var(--muted)">2026-01-08</span>
+        </div>
+        <h3>破解換臉、變聲影片 高雄大學開發手機 Deepfake 偵測系統</h3>
+        <p>以團隊組長身分受訪，說明輕量化模型與影音多模態一致性檢測的設計思路，以及量化後於行動裝置端完成推論、無須上傳雲端的隱私保護優勢。記者：蔡清華。</p>
+        <span class="media-go">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6M10 14 21 3"/></svg>
+          閱讀報導全文
+        </span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PUBLICATIONS ══════════ -->
+<section id="publications">
+  <div class="wrap">
+    <div class="s-head reveal">
+      <div class="s-kicker">Research</div>
+      <h2 class="s-title">Publications</h2>
+    </div>
+
+    <div class="pub card reveal">
+      <div class="pub-tags">
+        <span class="badge green">Best Session Presentation Award</span>
+        <span class="badge">Pending IEEE Xplore</span>
+      </div>
+      <h3>Lightweight Deepfake Detection with Privacy-Preserving Edge Deployment</h3>
+      <div class="venue">2025 International Conference on Fuzzy Theory and Its Applications (iFuzzy 2025)</div>
+      <p>
+        Built a lightweight Deepfake detector using MobileNetV3 and GRU, improving efficiency by
+        cropping specific facial regions instead of scanning the full frame. Applied cross-dataset
+        training with identity-disjoint splits to prevent identity leakage and improve generalization
+        on unseen data. Post-training quantization with TFLite enables fully offline,
+        privacy-preserving inference on Android devices.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SKILLS ══════════ -->
+<section id="skills">
+  <div class="wrap">
+    <div class="s-head reveal">
+      <div class="s-kicker">Technical Expertise</div>
+      <h2 class="s-title">Skills</h2>
+    </div>
+
+    <div class="skills">
+      <div class="sg reveal">
+        <h3>Programming Languages</h3>
+        <div class="sk">
+          <span class="pro">C / C++</span><span class="pro">Java</span>
+          <span class="mid">Python</span><span class="mid">Bash</span>
+        </div>
+      </div>
+
+      <div class="sg reveal">
+        <h3>AI / ML</h3>
+        <div class="sk">
+          <span class="pro">TensorFlow / TFLite</span><span class="mid">PyTorch</span>
+          <span class="mid">TensorFlow.js</span><span class="mid">Model Quantization (PTQ)</span>
+          <span class="mid">Edge AI Deployment</span><span class="mid">Generative AI</span>
+          <span class="mid">LLM Agent / Function Calling</span>
+        </div>
+      </div>
+
+      <div class="sg reveal">
+        <h3>HPC &amp; Systems</h3>
+        <div class="sk">
+          <span class="mid">SLURM</span><span class="mid">Lmod</span><span class="mid">PyLauncher</span>
+          <span class="mid">GPFS</span><span class="mid">InfiniBand</span>
+          <span class="mid">Ansible / pdsh</span><span class="mid">Ollama Deployment</span>
+          <span>LDAP</span>
+        </div>
+      </div>
+
+      <div class="sg reveal">
+        <h3>Embedded &amp; Hardware</h3>
+        <div class="sk">
+          <span class="mid">AMB82-Mini / HUB8735</span><span class="mid">Realtek Acuity Toolkit</span>
+          <span class="mid">NPU Deployment</span><span class="mid">Vitis HLS</span>
+          <span class="mid">PYNQ / FPGA</span><span class="mid">MQTT</span>
+        </div>
+      </div>
+
+      <div class="sg reveal">
+        <h3>Backend</h3>
+        <div class="sk">
+          <span class="mid">Spring Boot</span><span class="mid">RESTful API</span>
+          <span class="mid">MySQL / MariaDB</span><span class="mid">PHP</span>
+          <span class="mid">Supabase</span><span class="mid">Firebase</span>
+        </div>
+      </div>
+
+      <div class="sg reveal">
+        <h3>Frontend &amp; Mobile</h3>
+        <div class="sk">
+          <span class="mid">Flutter</span><span>HTML / CSS</span><span>JavaScript</span>
+        </div>
+      </div>
+
+      <div class="sg reveal">
+        <h3>Tools &amp; DevOps</h3>
+        <div class="sk">
+          <span class="mid">Git / GitHub</span><span class="mid">Linux</span>
+          <span class="mid">Docker / Singularity</span><span class="mid">Postman</span><span class="mid">Figma</span>
+        </div>
+      </div>
+
+      <div class="sg reveal">
+        <h3>Languages</h3>
+        <div class="sk">
+          <span class="pro">Chinese (Native)</span><span class="mid">English (TOEIC 760)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="legend reveal">
+      <span><i class="sw" style="background:var(--accent-dim);border-color:var(--accent)"></i> Proficient 精通</span>
+      <span><i class="sw" style="background:var(--surface-2)"></i> Intermediate 中階</span>
+      <span><i class="sw" style="background:var(--surface)"></i> Beginner 初學</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CONTACT ══════════ -->
+<section id="contact">
+  <div class="wrap">
+    <div class="s-head reveal">
+      <div class="s-kicker">Get in Touch</div>
+      <h2 class="s-title">Contact</h2>
+    </div>
+
+    <div class="contacts">
+      <a href="mailto:chen.guanlin.dev@gmail.com" class="ct card reveal">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg></span>
+        <span><h3>Email</h3><p>chen.guanlin.dev@gmail.com</p></span>
+      </a>
+
+      <a href="https://github.com/Guanisnt" target="_blank" rel="noopener" class="ct card reveal">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 00-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.2 1.9 1.2 1.1 1.9 2.9 1.3 3.6 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0012 .5z"/></svg></span>
+        <span><h3>GitHub</h3><p>github.com/Guanisnt</p></span>
+      </a>
+
+      <a href="https://www.linkedin.com/in/冠霖-陳-80242334b/" target="_blank" rel="noopener" class="ct card reveal">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3-.02-3-1.83-3-1.83 0-2.11 1.43-2.11 2.9V21h-4z"/></svg></span>
+        <span><h3>LinkedIn</h3><p>linkedin.com/in/冠霖-陳</p></span>
+      </a>
+
+      <a href="https://leetcode.com/u/allen6010101/" target="_blank" rel="noopener" class="ct card reveal">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-5 6 5 6M16 6l5 6-5 6M13.5 4l-3 16"/></svg></span>
+        <span><h3>LeetCode</h3><p>leetcode.com/u/allen6010101</p></span>
+      </a>
+
+      <div class="ct card reveal" style="cursor:default">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1116 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+        <span><h3>Location</h3><p>Taiwan（Remote / On-site）</p></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  © 2026 陳冠霖 Chen Guan-Lin
+  <span class="f-sep">/</span>
+  <a href="mailto:chen.guanlin.dev@gmail.com">chen.guanlin.dev@gmail.com</a>
 </footer>
 
 <script>
-    // Intersection Observer: fade-in on scroll
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-            if (e.isIntersecting) {
-                e.target.style.opacity = '1';
-                e.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, { threshold: 0.1 });
+(function () {
+  'use strict';
 
-    document.querySelectorAll('.award-card, .project-card, .timeline-body, .pub-card, .contact-item, .media-card').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        observer.observe(el);
-    });
+  /* ── theme toggle ── */
+  var root = document.documentElement;
+  document.getElementById('theme-btn').addEventListener('click', function () {
+    root.setAttribute('data-theme', root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+
+  /* ── mobile drawer ── */
+  var menuBtn = document.getElementById('menu-btn');
+  var drawer  = document.getElementById('drawer');
+
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.setAttribute('aria-label', '開啟選單');
+  }
+  menuBtn.addEventListener('click', function () {
+    var open = drawer.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', String(open));
+    menuBtn.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+  });
+  drawer.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A') closeDrawer();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeDrawer();
+  });
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 820) closeDrawer();
+  });
+
+  /* ── scroll progress ── */
+  var bar = document.getElementById('progress');
+  function onScroll() {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ── scroll reveal ── */
+  var revealables = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    revealables.forEach(function (el) { io.observe(el); });
+  } else {
+    revealables.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* ── active nav highlight ── */
+  var sections = document.querySelectorAll('section[id]');
+  var navMap = {};
+  document.querySelectorAll('.nav-links a').forEach(function (a) {
+    navMap[a.getAttribute('href').slice(1)] = a;
+  });
+  if ('IntersectionObserver' in window) {
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        var link = navMap[en.target.id];
+        if (!link) return;
+        if (en.isIntersecting) {
+          Object.keys(navMap).forEach(function (k) { navMap[k].classList.remove('active'); });
+          link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sections.forEach(function (s) { spy.observe(s); });
+  }
+})();
 </script>
 
 </body>
