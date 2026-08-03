@@ -414,6 +414,8 @@ section:nth-of-type(even){background:var(--bg-alt)}
 .award .when{font-family:var(--f-mono);font-size:.72rem;color:var(--muted);white-space:nowrap;padding-top:.2rem}
 .award-proof{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:.5rem 1rem;margin-top:.85rem}
 .award-proof:empty{display:none}
+.proof-row{display:flex;flex-wrap:wrap;gap:.5rem 1rem;margin-top:.9rem}
+.proof-row .award-proof{display:contents}
 .proof-link{
   display:inline-flex;align-items:center;gap:.35rem;
   font-family:var(--f-mono);font-size:.72rem;font-weight:500;
@@ -856,6 +858,12 @@ footer a:hover{text-decoration:underline}
             <span>歷年系排 6 / 43</span>
             <span>113-1 系排 2 · 113-2 系排 1</span>
             <span>演算法、作業系統 全系第一</span>
+          </div>
+          <div class="proof-row">
+            <div class="award-proof" data-proof-img="images/113-1.jpg" data-proof-label="113-1 書卷獎"></div>
+            <div class="award-proof" data-proof-img="images/113-2.jpg" data-proof-label="113-2 書卷獎"></div>
+            <div class="award-proof" data-proof-img="images/algorithm_award.jpg" data-proof-label="演算法 全系第一"></div>
+            <div class="award-proof" data-proof-img="images/OSAward.jpg" data-proof-label="作業系統 全系第一"></div>
           </div>
         </div>
       </div>
@@ -1604,9 +1612,10 @@ footer a:hover{text-decoration:underline}
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeLightbox(); });
 
   document.querySelectorAll('.award-proof').forEach(function (slot) {
-    var card  = slot.closest('.award');
+    var card  = slot.closest('.award, .tl-body');
     var h3    = card ? card.querySelector('h3') : null;
-    var title = h3 ? h3.textContent.trim() : '獎狀';
+    var label = (slot.getAttribute('data-proof-label') || '').trim();
+    var title = slot.getAttribute('data-proof-title') || label || (h3 ? h3.textContent.trim() : '獎狀');
 
     var url = (slot.getAttribute('data-proof-url') || '').trim();
     if (url && !/^【/.test(url)) {
@@ -1626,7 +1635,7 @@ footer a:hover{text-decoration:underline}
       var btn = document.createElement('button');
       btn.className = 'proof-link';
       btn.type = 'button';
-      btn.innerHTML = ICON_IMG + '查看獎狀';
+      btn.innerHTML = ICON_IMG + (label || '查看獎狀');
       btn.addEventListener('click', function () { openLightbox(src, title); });
       slot.insertBefore(btn, slot.firstChild);
     };
