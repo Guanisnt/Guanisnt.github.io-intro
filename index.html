@@ -1229,6 +1229,48 @@ footer a:hover{text-decoration:underline}
         </div>
       </div>
 
+      <!-- ─ ASSEMBLY AIR HOCKEY ─ -->
+      <div class="proj card reveal">
+        <div class="shot">
+          <img src="images/assembly.png" alt="組合語言桌上曲棍球遊戲"
+              onerror="this.parentElement.innerHTML='<span class=&quot;ph&quot;>images/asm-air-hockey.png</span>'">
+        </div>
+        <div class="proj-body">
+          <h3>Air Hockey — x86 組合語言桌上曲棍球遊戲</h3>
+          <ul>
+            <li>以 <strong>Irvine32 Assembly Library</strong> 開發終端機文字介面遊戲，支援雙人對戰與人機對戰兩種模式，遊戲畫面直接輸出於 terminal</li>
+            <li>負責遊戲<strong>初始化</strong>、<strong>game loop</strong> 邏輯、畫面 update 與 input handle 的設計與實作</li>
+            <li>熟悉 general-purpose register 與 status flag 的操作，並運用直接、間接、<strong>base + offset</strong> 等定址方式讀寫記憶體，設計 procedure 讓程式架構更加模組化</li>
+            <li>最具挑戰的部分是讓球以斜角移動並正確反彈：組合語言不像高階語言方便處理向量運算，改以 <strong>XOR</strong> 邏輯切換 x、y 方向的移動增量，實現對角線彈射效果</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">x86 Assembly</span><span class="chip">Irvine32</span><span class="chip">MASM</span>
+            <span class="chip">Terminal Game</span><span class="chip">Low-level Programming</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─ MIPS PIPELINE SIMULATOR ─ -->
+      <div class="proj card reveal">
+        <div class="shot">
+          <img src="images/mips.png" alt="MIPS 5-Stage Pipelined CPU 模擬器"
+              onerror="this.parentElement.innerHTML='<span class=&quot;ph&quot;>images/mips-pipeline-sim.png</span>'">
+        </div>
+        <div class="proj-body">
+          <h3>MIPS 5-Stage Pipelined CPU 模擬器</h3>
+          <ul>
+            <li>以 <strong>C++</strong> 實作 5 段管線（IF、ID、EX、MEM、WB）的 MIPS CPU 模擬器，完整模擬指令在各階段間的執行流程</li>
+            <li>將每個管線階段封裝為獨立 class，並以 <strong>IF/ID、ID/EX</strong> 等中介暫存器實現階段間資料傳遞，讓指令能於每個 clock 同步推進</li>
+            <li>實作 <strong>data hazard</strong> 偵測與解決機制，包含 forwarding 與 stall 策略，並處理 branch 指令造成的 <strong>control hazard</strong>，確保 pipeline 執行結果正確</li>
+            <li>支援 add、sub、lw、sw、beq、bne 等常見 MIPS 指令，可載入程式並逐 clock 觀察暫存器與記憶體內容的更新，加深對電腦組織與架構、hazard 處理與 pipeline 效能平衡設計 trade-off 的理解</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">C++</span><span class="chip">MIPS ISA</span><span class="chip">Computer Architecture</span>
+            <span class="chip">Pipeline Hazard</span><span class="chip">Forwarding</span>
+          </div>
+        </div>
+      </div>
+
       <!-- ─ CONTEST SYSTEM ─ -->
       <div class="proj card reveal">
         <div class="shot">
