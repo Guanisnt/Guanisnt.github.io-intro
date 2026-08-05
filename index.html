@@ -405,6 +405,43 @@ section:nth-of-type(even){background:var(--bg-alt)}
   font-family:var(--f-mono);font-size:.72rem;color:var(--muted);
   display:flex;flex-wrap:wrap;gap:.5rem .9rem;margin-top:.2rem;
 }
+/* timeline 連接線 */
+.timeline{position:relative}
+.tl-item{position:relative}
+
+.tl-track{
+  position:absolute;
+  left:calc(132px + .8rem - 1px);
+  top:1.35rem;
+  bottom:1.35rem;
+  width:2px;
+  background:var(--border);
+  z-index:0;
+}
+.tl-track-fill{
+  position:absolute;
+  left:0;top:0;width:100%;
+  height:0%;
+  background:linear-gradient(var(--accent),var(--green));
+  transition:height 1s var(--ease);
+}
+
+.tl-dot{
+  position:absolute;
+  left:calc(132px + .8rem - 5px);
+  top:1.3rem;
+  width:10px;height:10px;
+  border-radius:50%;
+  background:var(--bg-alt);
+  border:2px solid var(--border-hi);
+  z-index:1;
+  transition:border-color .3s var(--ease),background .3s var(--ease),transform .3s var(--ease);
+}
+.tl-item.in .tl-dot{
+  border-color:var(--accent);
+  background:var(--accent);
+  transform:scale(1.15);
+}
 
 /* ════════════════════════════════════════════
    AWARDS
@@ -719,6 +756,7 @@ body.boot-lock{overflow:hidden}
   .stat:nth-child(1),.stat:nth-child(2){border-bottom:1px solid var(--border)}
   .tl-item{grid-template-columns:1fr;gap:.5rem}
   .tl-date{text-align:left;padding-top:0}
+  .tl-track,.tl-dot{display:none}
 }
 @media (max-width:560px){
   .skills{grid-template-columns:1fr}
@@ -946,6 +984,7 @@ body.boot-lock{overflow:hidden}
     </div>
 
     <div class="timeline">
+      <div class="tl-track"><div class="tl-track-fill"></div></div>
       <div class="tl-item reveal">
         <div class="tl-date">2026.07 — 現在</div>
         <div class="tl-body card">
@@ -987,6 +1026,7 @@ body.boot-lock{overflow:hidden}
     </div>
 
     <div class="timeline">
+      <div class="tl-track"><div class="tl-track-fill"></div></div>
       <div class="tl-item reveal">
         <div class="tl-date">2026 Summer</div>
         <div class="tl-body card">
@@ -1525,7 +1565,7 @@ body.boot-lock{overflow:hidden}
     </div>
 
     <div class="timeline">
-
+      <div class="tl-track"><div class="tl-track-fill"></div></div>
       <div class="tl-item reveal">
         <div class="tl-date">【115 年 5 月】</div>
         <div class="tl-body card">
@@ -1798,16 +1838,33 @@ body.boot-lock{overflow:hidden}
   onScroll();
 
   /* ── scroll reveal ── */
+  function growTimelineTrack(item) {
+    var timeline = item.closest('.timeline');
+    if (!timeline) return;
+    var fill = timeline.querySelector('.tl-track-fill');
+    if (!fill) return;
+    var items = Array.prototype.slice.call(timeline.querySelectorAll('.tl-item'));
+    var idx = items.indexOf(item);
+    var pct = ((idx + 1) / items.length) * 100;
+    if (pct > parseFloat(fill.style.height || 0)) {
+      fill.style.height = pct + '%';
+    }
+  }
   var revealables = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
-        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+        if (en.isIntersecting) {
+          en.target.classList.add('in');
+          if (en.target.classList.contains('tl-item')) growTimelineTrack(en.target);
+          io.unobserve(en.target);
+        }
       });
     }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
     revealables.forEach(function (el) { io.observe(el); });
   } else {
     revealables.forEach(function (el) { el.classList.add('in'); });
+    document.querySelectorAll('.tl-track-fill').forEach(function (f) { f.style.height = '100%'; });
   }
 
   /* ── active nav highlight ── */
