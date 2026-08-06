@@ -1,0 +1,12 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- background: rounded square, same dark bg as site's dark theme -->
+  <rect x="8" y="8" width="496" height="496" rx="112" fill="#0a0d13" stroke="#1e2733" stroke-width="10"/>
+
+  <!-- terminal prompt chevron ">" in accent blue -->
+  <path d="M 168 152 L 318 256 L 168 360"
+        fill="none" stroke="#58a6ff" stroke-width="46"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- blinking cursor bar in accent green -->
+  <rect x="336" y="322" width="92" height="46" rx="10" fill="#3fb950"/>
+</svg>
